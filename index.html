@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>HTTP - Preguntas</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Protocolo HTTP</h1>
+
+  <!-- 1. Lista de preguntas -->
+  <h2>Preguntas</h2>
+  <ol>
+    <li>
+      <span style="font-weight:bold;">¿Sobre qué protocolo binario está montado HTTP?</span><br>
+      HTTP se monta sobre TCP/IP. Con HTTP/3 corre sobre QUIC, que a su vez va sobre UDP.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Cuáles son los clientes y servidores HTTP más utilizados?</span><br>
+      Clientes: navegadores (Chrome, Firefox, Safari, Edge), curl, Postman. Servidores: Apache, Nginx, IIS, Node.js/Express, Tomcat.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Qué verbos admite un comando en el requerimiento HTTP?</span><br>
+      GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, TRACE y CONNECT.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Qué contenido lleva el body de un requerimiento HTTP?</span><br>
+      Datos enviados al servidor: formularios, JSON, XML, archivos binarios, etc. GET normalmente no lleva body.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Qué diferencia existe entre URL y URI?</span><br>
+      URI es el concepto general que identifica un recurso. URL es un tipo de URI que además indica cómo acceder a él (protocolo, dominio, ruta).
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Cómo se almacena información relacionada con las respuestas HTTP?</span><br>
+      A través de cookies, cache del navegador (Cache-Control, ETag, Expires) y local/session storage.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Qué significa HTTP sobre conexiones preexistentes?</span><br>
+      Es el uso de keep-alive: reutilizar la misma conexión TCP para varios requests/responses.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Qué significa Virtual Hosting?</span><br>
+      Un mismo servidor físico aloja múltiples sitios/dominios, diferenciados por el header Host de la request.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Qué significa Cache por ETag?</span><br>
+      El servidor asigna un identificador al recurso; el cliente lo envía en If-None-Match, y si no cambió responde 304 Not Modified.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Por qué HTTP se considera STATELESS?</span><br>
+      Porque cada request es independiente: el servidor no guarda información de requests anteriores.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Qué nueva versión de HTTP se usa para mejorar la velocidad de la web?</span><br>
+      HTTP/2 (multiplexación, compresión de headers) y HTTP/3, que usa QUIC.
+    </li>
+    <li>
+      <span style="font-weight:bold;">¿Cómo mejora el comportamiento en ambientes ruidosos o de conexión débil?</span><br>
+      HTTP/3 sobre QUIC evita el head-of-line blocking de TCP y reduce la latencia de reconexión.
+    </li>
+  </ol>
+
+  <!-- 2. Tabla -->
+  <h2>Verbos HTTP</h2>
+  <table border="1" style="border-collapse:collapse;">
+    <tr style="background-color:#dddddd;">
+      <th style="padding:6px;">Verbo</th>
+      <th style="padding:6px;">Descripción</th>
+    </tr>
+    <tr>
+      <td style="padding:6px;">GET</td>
+      <td style="padding:6px;">Solicita un recurso</td>
+    </tr>
+    <tr>
+      <td style="padding:6px;">POST</td>
+      <td style="padding:6px;">Envía datos para crear un recurso</td>
+    </tr>
+    <tr>
+      <td style="padding:6px;">PUT</td>
+      <td style="padding:6px;">Reemplaza un recurso</td>
+    </tr>
+    <tr>
+      <td style="padding:6px;">DELETE</td>
+      <td style="padding:6px;">Elimina un recurso</td>
+    </tr>
+  </table>
+
+  <!-- 3. Formulario sin validación -->
+  <h2>Formulario</h2>
+  <form novalidate>
+    <label>Nombre: <input type="text" name="nombre"></label><br><br>
+    <label>Email: <input type="text" name="email"></label><br><br>
+    <label>Comentario:<br>
+      <textarea name="comentario" rows="3" cols="30"></textarea>
+    </label><br><br>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <!-- 4. Información anidada -->
+  <h2>Información anidada</h2>
+  <details>
+    <summary>HTTP Stateless</summary>
+    <ul>
+      <li>Cada request es independiente</li>
+      <li>El servidor no guarda información entre peticiones</li>
+      <li>El estado se maneja con cookies o tokens</li>
+    </ul>
+  </details>
+
+</body>
+</html>
