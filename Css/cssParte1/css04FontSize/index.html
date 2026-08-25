@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css04FontSize</title>
+<style>
+
+  body {
+    font-size: 12px; /* 1em = 12px para dispositivos de baja resolución */
+  }
+
+  h1 {
+    font-size: 2em; /* siempre el doble del tamaño de párrafo definido en el body */
+  }
+
+  p {
+    font-size: 1em;
+  }
+
+  @media (min-width: 800px) and (max-width: 1080px) {
+    body {
+      font-size: 24px; /* 2em, dispositivos de resolución media */
+    }
+  }
+
+  @media (min-width: 1080px) {
+    body {
+      font-size: 36px; /* 3em, dispositivos de alta resolución */
+    }
+  }
+
+</style>
+</head>
+<body>
+
+  <h1>Tamaño de los fonts dependiente de la resolución del medio de visualización</h1>
+
+  <p>Los textos marcados con "H1" tendrán dimensión doble a los párrafos comunes, ya que ambos están
+  expresados en unidades "em" relativas al tamaño de letra definido para el body.</p>
+
+  <p>En este ejercicio se define un tamaño de letra default para el body y luego todo el resto del
+  documento se expresa en unidades em. Se trabaja con la consulta de medios @media() para que el
+  tamaño de letra cambie según el ancho del viewport:</p>
+
+  <ul>
+    <li>12px (1em) para dispositivos de baja resolución (menos de 800px de ancho).</li>
+    <li>24px (2em) para dispositivos de resolución media, entre 800px y 1080px.</li>
+    <li>36px (3em) para dispositivos de alta resolución, más de 1080px.</li>
+  </ul>
+
+  <p>Redimensioná la ventana del navegador para ver cómo cambia el tamaño de la letra en los distintos
+  puntos de quiebre (breakpoints).</p>
+
+  <p><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css14DivsInternosEnColumnas</title>
+<style>
+
+  body {
+    background-color: lightyellow;
+  }
+
+  .contenedorColumnas {
+    column-count: 3;
+    column-gap: 20px;
+  }
+
+  .articulo {
+    background-color: lightblue;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 20px;
+    break-inside: avoid; /* evita que un artículo se corte entre dos columnas */
+  }
+
+  .articulo img {
+    max-width: 100%; /* la imagen se limita al ancho de la columna, sin importar su tamaño real */
+    display: block;
+    margin-top: 10px;
+  }
+
+</style>
+</head>
+<body>
+
+  <h1 style="text-align:center;">Encolumnado sin tablas</h1>
+
+  <div class="contenedorColumnas">
+
+    <div class="articulo">
+      <h2>Artículo 1</h2>
+      <p>Datos para incluir en esta columna: lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p>La siguiente imagen queda enmarcada automáticamente y ocupa el máximo ancho posible dentro de
+      la columna, independientemente del ancho real de la foto (gracias a max-width:100%).</p>
+      <img src="./paisaje.jpg" alt="Paisaje de referencia">
+    </div>
+
+    <div class="articulo"><h2>Artículo 2</h2><p>Datos para incluir en esta columna: lorem ipsum dolor sit amet.</p></div>
+    <div class="articulo"><h2>Artículo 3</h2><p>Datos para incluir en esta columna: lorem ipsum dolor sit amet.</p></div>
+    <div class="articulo"><h2>Artículo 4</h2><p>Datos para incluir en esta columna: lorem ipsum dolor sit amet.</p></div>
+    <div class="articulo"><h2>Artículo 5</h2><p>Datos para incluir en esta columna: lorem ipsum dolor sit amet.</p></div>
+    <div class="articulo"><h2>Artículo 6</h2><p>Datos para incluir en esta columna: lorem ipsum dolor sit amet.</p></div>
+    <div class="articulo"><h2>Artículo 7</h2><p>Datos para incluir en esta columna: lorem ipsum dolor sit amet.</p></div>
+    <div class="articulo"><h2>Artículo 8</h2><p>Datos para incluir en esta columna: lorem ipsum dolor sit amet.</p></div>
+
+  </div>
+
+  <p style="text-align:center;"><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

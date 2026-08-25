@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css11DivsEnFila</title>
+<style>
+
+  body {
+    background-color: lightblue;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: cursive, sans-serif;
+    color: white;
+    text-shadow: 0 0 8px deeppink, 0 0 16px deeppink, 0 0 24px magenta;
+  }
+
+  .fila {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .caja {
+    width: 160px;
+    height: 160px;
+    border-radius: 16px;
+    box-shadow: 6px 6px 10px rgba(0,0,0,0.4);
+    box-sizing: border-box;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    overflow-y: auto;
+  }
+
+  #caja1 {
+    background: linear-gradient(orange, gold);
+  }
+
+  #caja2 {
+    background: linear-gradient(deeppink, white);
+    color: black;
+  }
+
+  #caja3, #caja4 {
+    background-size: cover;
+    background-position: center;
+  }
+
+  #caja3 {
+    background-image: url('./monte-fuji-sakura.jpg');
+  }
+
+  #caja4 {
+    background-image:
+      radial-gradient(circle, rgba(255,215,0,0.6), transparent 70%),
+      url('./castillo.jpg');
+  }
+
+  #caja5 {
+    background: linear-gradient(deeppink, white);
+    color: black;
+  }
+
+</style>
+</head>
+<body>
+
+  <h1>Divs en fila</h1>
+
+  <div class="fila">
+    <div id="caja1" class="caja">Texto en caja 1 adicional para forzar scroll interno con overflow-y:auto.</div>
+    <div id="caja2" class="caja">Texto en caja 2</div>
+    <div id="caja3" class="caja"></div>
+    <div id="caja4" class="caja"></div>
+    <div id="caja5" class="caja">Texto en caja 5</div>
+  </div>
+
+  <p style="text-align:center;padding-top:20px;"><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

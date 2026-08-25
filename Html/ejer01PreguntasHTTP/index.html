@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Preguntas y referencias sobre protocolo HTTP</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px; max-width:900px;">
+
+  <header>
+    <h1>Preguntas y referencias sobre protocolo HTTP</h1>
+  </header>
+
+  <nav>
+    <h2>Sección de referencias de interés (abrir enlaces en nuevas pestañas)</h2>
+    <ul>
+      <li><a href="https://www.cloudflare.com/es-es/learning/ddos/glossary/hypertext-transfer-protocol-http/" target="_blank">Cloudflare - ¿Qué es HTTP?</a></li>
+      <li><a href="https://developer.mozilla.org/es/docs/Web/HTTP" target="_blank">MDN - HTTP</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <h2>Sección de Preguntas sobre HTTP</h2>
+    <ol>
+      <li>
+        <strong>Pregunta 1: ¿Sobre qué protocolo binario está montado HTTP?</strong><br>
+        Respuesta: HTTP se monta sobre TCP/IP (TCP como protocolo de transporte). Con HTTP/2 y HTTP/3, HTTP/3 corre sobre QUIC (que a su vez va sobre UDP).
+      </li>
+      <li>
+        <strong>Pregunta 2: ¿Cuáles son los clientes y servidores HTTP más utilizados?</strong><br>
+        Respuesta: Clientes: navegadores (Chrome, Firefox, Safari, Edge), curl, Postman. Servidores: Apache HTTP Server, Nginx, Microsoft IIS, y a nivel de aplicación Node.js/Express, Tomcat.
+      </li>
+      <li>
+        <strong>Pregunta 3: ¿Qué verbos admite un comando en el requerimiento HTTP?</strong><br>
+        Respuesta: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, TRACE y CONNECT.
+      </li>
+      <li>
+        <strong>Pregunta 4: ¿Qué contenido lleva el body de un requerimiento HTTP?</strong><br>
+        Respuesta: Los datos enviados al servidor: formularios, JSON, XML, archivos binarios, etc. No todos los métodos lo usan (GET normalmente no lleva body).
+      </li>
+      <li>
+        <strong>Pregunta 5: ¿Qué diferencia existe entre URL y URI?</strong><br>
+        Respuesta: URI es el concepto general: identifica un recurso (puede ser por nombre -URN- o por ubicación -URL-). URL es un tipo de URI que además indica cómo acceder al recurso (protocolo, dominio, ruta).
+      </li>
+      <li>
+        <strong>Pregunta 6: ¿Cómo se almacena información relacionada con las respuestas HTTP?</strong><br>
+        Respuesta: A través de cookies, cache del navegador (headers como Cache-Control, ETag, Expires) y en el local storage/session storage del cliente.
+      </li>
+      <li>
+        <strong>Pregunta 7: ¿Qué significa HTTP sobre conexiones preexistentes?</strong><br>
+        Respuesta: Es el uso de "keep-alive" (persistent connections): reutilizar la misma conexión TCP para múltiples requests/responses, evitando el costo de abrir una nueva conexión cada vez.
+      </li>
+      <li>
+        <strong>Pregunta 8: ¿Qué significa Virtual Hosting?</strong><br>
+        Respuesta: Es la capacidad de un mismo servidor físico de alojar múltiples sitios/dominios distintos, diferenciándolos por el header Host de la request.
+      </li>
+      <li>
+        <strong>Pregunta 9: ¿Qué significa Cache por ETag?</strong><br>
+        Respuesta: El servidor asigna un identificador (hash) al recurso. El cliente lo guarda y en próximos requests lo envía (If-None-Match); si no cambió, el servidor responde 304 Not Modified sin reenviar el contenido.
+      </li>
+      <li>
+        <strong>Pregunta 10: ¿Por qué HTTP se considera STATELESS?</strong><br>
+        Respuesta: Porque cada request es independiente: el servidor no guarda información de requests anteriores. Cada petición debe contener todo lo necesario para ser procesada (el estado se maneja aparte, vía cookies, sesiones o tokens).
+      </li>
+      <li>
+        <strong>Pregunta 11: ¿Qué nueva versión de HTTP se usa para mejorar la velocidad de la web?</strong><br>
+        Respuesta: HTTP/2 (multiplexación, compresión de headers) y más recientemente HTTP/3, que usa QUIC.
+      </li>
+      <li>
+        <strong>Pregunta 12: ¿Cómo mejora el comportamiento en ambientes ruidosos o de conexión débil?</strong><br>
+        Respuesta: HTTP/3 sobre QUIC evita el "head-of-line blocking" de TCP: si se pierde un paquete, no bloquea todas las demás transmisiones, y además reduce la latencia de reconexión, lo que mejora mucho la experiencia en redes inestables (móviles, wifi débil).
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Sección de imágenes representativas del protocolo</h2>
+    <p>En esta sección mostraremos imágenes representativas del protocolo HTTP.</p>
+    <img src="./computer-network-http.jpg" alt="Diagrama cliente-servidor HTTP" style="max-width:100%;">
+    <img src="./http-steps.jpg" alt="Pasos del protocolo HTTP" style="max-width:100%;">
+  </section>
+
+  <section>
+    <h2>Sección de videos representativos del protocolo</h2>
+    <video src="./http.mp4" controls style="max-width:100%;">
+      Tu navegador no soporta la reproducción de video.
+    </video>
+  </section>
+
+  <section>
+    <h2>Datos del alumno</h2>
+    <address>
+      <em>Jesús Odreman</em><br>
+      <a href="mailto:jaosodreman@gmail.com">jaosodreman@gmail.com</a>
+    </address>
+  </section>
+
+  <footer>
+    <p><a href="../index.html">Volver al índice de Html</a></p>
+  </footer>
+
+</body>
+</html>

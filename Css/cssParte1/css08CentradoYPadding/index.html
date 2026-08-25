@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css08CentradoYPadding</title>
+<style>
+
+  .caja {
+    width: 50%;
+    margin: 20px auto; /* margin:auto centra el elemento horizontalmente */
+    border: solid 2px black;
+  }
+
+  .cajaCeleste {
+    background-color: lightblue;
+  }
+
+  .cajaVerde {
+    background-color: lightgreen;
+    padding: 30px; /* sin box-sizing:border-box, el padding agranda la caja más allá del 50% */
+  }
+
+  .cajaAmarilla {
+    background-color: lightyellow;
+    padding: 30px;
+    box-sizing: border-box; /* con border-box, el ancho total se mantiene en 50% pese al padding */
+  }
+
+</style>
+</head>
+<body>
+
+  <h1 style="text-align:center;">Los siguientes elementos tienen un ancho del 50% de la ventana</h1>
+
+  <div class="caja cajaCeleste">
+    <p>Texto en interior (sin padding, el texto queda pegado al borde de la caja).</p>
+  </div>
+
+  <div class="caja cajaVerde">
+    <p>Texto en interior con padding y sin box-sizing (la caja crece más allá del 50% del ancho de la ventana).</p>
+  </div>
+
+  <div class="caja cajaAmarilla">
+    <p>Texto en interior con padding y con box-sizing:border-box (la caja se mantiene exactamente en el 50% del ancho).</p>
+  </div>
+
+  <p style="text-align:center;"><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

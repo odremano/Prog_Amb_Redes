@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Formulario Html</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Formulario Html</h1>
+
+  <form action="./respuestaFormulario.html" target="_blank" method="get">
+
+    <h2>Entradas simples</h2>
+    <ul>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="apellido">Apellido:</label><br>
+        <input type="text" id="apellido" name="apellido" value="" autofocus="autofocus">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="clave">Contraseña:</label><br>
+        <input type="password" id="clave" name="clave" value="">
+      </li>
+      <li style="margin-top:10px;">
+        <input type="hidden" name="campoOculto" value="valorOculto">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="campoDeshabilitado">Campo deshabilitado:</label><br>
+        <input type="text" id="campoDeshabilitado" name="campoDeshabilitado" value="valor deshabilitado" disabled="disabled">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="campoSoloLectura">Campo de solo lectura:</label><br>
+        <input type="text" id="campoSoloLectura" name="campoSoloLectura" value="valorSoloLectura" readonly="readonly">
+      </li>
+    </ul>
+
+    <h2>Entradas de selección</h2>
+    <ul>
+      <li style="margin-top:10px;">
+        <input type="checkbox" id="deportes" name="deportes" value="si"> <label for="deportes">Practica deportes</label>
+      </li>
+      <li style="margin-top:10px;">
+        <input type="checkbox" id="musica" name="musica" value="si"> <label for="musica">Practica musical</label>
+      </li>
+      <li style="margin-top:10px;">
+        <input type="checkbox" id="pintura" name="pintura" value="si"> <label for="pintura">Practica de pintura artística</label>
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;">Sexo:</label><br>
+        <input type="radio" id="masculino" name="sexo" value="masc"> <label for="masculino">Masculino</label>
+        <input type="radio" id="femenino" name="sexo" value="fem" checked="checked"> <label for="femenino">Femenino</label>
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="estudios">Estudios cursados:</label><br>
+        <select id="estudios" name="Estudios">
+          <option value="pri" selected="selected">Primarios</option>
+          <option value="sec">Secundarios</option>
+          <option value="ter">Terciarios</option>
+          <option value="uni">Universitarios</option>
+          <option value="pos">Postgrado</option>
+        </select>
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="fecha">Fecha y Hora:</label><br>
+        <input type="date" id="fecha" name="fecha">
+        <input type="time" id="hora" name="hora">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="color">Color:</label><br>
+        <input type="color" id="color" name="color">
+      </li>
+    </ul>
+
+    <h2>Entradas con validación</h2>
+    <ul>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="comentario">Comentario (validación por requerido):</label><br>
+        <input type="text" id="comentario" name="Comentario" required="required">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="userEmail">Email con doble validación (x@x y required):</label><br>
+        <input type="email" id="userEmail" name="user-email" placeholder="texto@texto" required="required">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="numeroEntero">Número entero limitado (validación por tipo numérico y cotas):</label><br>
+        <input type="number" id="numeroEntero" name="numeroEntero" min="1" max="5">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="numeroReal">Número decimal:</label><br>
+        <input type="number" id="numeroReal" name="numeroReal" min="0" max="9" step="0.1" title="Numero real menor o igual a 9">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="sitio">URL (validación por requerido, escribir http://):</label><br>
+        <input type="url" id="sitio" name="sitio" placeholder="http://xxx" required="required">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="mascara">Pattern de validación #1:</label><br>
+        <input type="text" id="mascara" name="mascara" pattern="[a-z]{3}[12]{2}" placeholder="abc32" title="3 letras y dos numeros que sean 1 o 2 solamente">
+      </li>
+      <li style="margin-top:10px;">
+        <label style="font-weight:bold;" for="telefono">Pattern de validación #2:</label><br>
+        <input type="text" id="telefono" name="telefono" pattern="\(\+54\) 11 \d{8}" placeholder="(+54) 11 44445555" title="(+54) 11 xxxxxxxx">
+      </li>
+    </ul>
+
+    <button type="submit">Enviar</button>
+    <button type="reset">Restablecer</button>
+
+  </form>
+
+  <p><a href="../index.html">Volver al índice de Html</a></p>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css07BackgroundFijo</title>
+<style>
+
+  body {
+    background-color: lightblue;
+  }
+
+  .cajaFondoFijo {
+    width: 60%;
+    height: 300px;
+    margin: 40px auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border: solid 3px red;
+    overflow-y: auto;
+    color: white;
+    font-weight: bold;
+    background-image: url('./manzanas.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+</style>
+</head>
+<body>
+
+  <h1 style="text-align:center;">Fondo fijo (background-attachment: fixed)</h1>
+
+  <div class="cajaFondoFijo">
+    <p>El padding es importante para que el texto no quede pegado al borde. No hay que olvidar usar
+    box-sizing:border-box para que la dimensión de la caja sea exactamente la definida en el width,
+    incluyendo el padding y el borde hacia adentro.</p>
+    <p>Con background-attachment:fixed, la imagen de fondo queda fija respecto al scroll del contenido:
+    si el texto de este div tiene más contenido del que entra en los 300px de alto, aparecerá una barra
+    de scroll (overflow-y:auto) y al desplazarte, el fondo no se moverá con el texto.</p>
+    <p>Relleno adicional de texto para forzar el scroll interno de la caja: lorem ipsum dolor sit amet,
+    consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+
+  <p style="text-align:center;"><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

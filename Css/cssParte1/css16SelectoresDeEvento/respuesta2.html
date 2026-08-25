@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css16SelectoresDeEvento - Opcion 2</title>
+<style>
+
+  .barraPestanias {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .barraPestanias li {
+    margin-right: 4px;
+  }
+
+  .barraPestanias a {
+    display: block;
+    padding: 10px 20px;
+    background-color: lightgray;
+    color: darkblue;
+    text-decoration: none;
+  }
+
+  .barraPestanias a:hover {
+    background-color: navy;
+    color: white;
+  }
+
+  .barraPestanias a:active {
+    background-color: darkred;
+    color: white;
+  }
+
+  .pestaniaActiva {
+    background-color: navy !important;
+    color: white !important;
+  }
+
+</style>
+</head>
+<body>
+
+  <h1>Selectores de evento (pseudoclases)</h1>
+
+  <ul class="barraPestanias">
+    <li><a href="./index.html">Opcion 1.</a></li>
+    <li><a class="pestaniaActiva" href="./respuesta2.html">Opcion 2.</a></li>
+    <li><a href="./respuesta3.html">Opcion 3.</a></li>
+  </ul>
+
+  <p>Contenido de la Opción 2.</p>
+
+  <p><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+h1 {
+  font-size: 2em;
+  color: darkblue;
+  text-align: center;
+  background-color: aquamarine;
+}
+
+p {
+  color: blue;
+  font-style: italic;
+  text-decoration: underline;
+}

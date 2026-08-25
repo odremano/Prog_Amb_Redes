@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css16SelectoresDeEvento - Opcion 1</title>
+<style>
+
+  .barraPestanias {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .barraPestanias li {
+    margin-right: 4px;
+  }
+
+  .barraPestanias a {
+    display: block;
+    padding: 10px 20px;
+    background-color: lightgray;
+    color: darkblue;
+    text-decoration: none;
+  }
+
+  .barraPestanias a:hover {
+    background-color: navy;
+    color: white;
+  }
+
+  .barraPestanias a:active {
+    background-color: darkred;
+    color: white;
+  }
+
+  .pestaniaActiva {
+    background-color: navy !important;
+    color: white !important;
+  }
+
+  input {
+    display: block;
+    width: 200px;
+    margin-bottom: 10px;
+  }
+
+  .miniatura {
+    width: 15%;
+    transition: width 0.3s ease;
+    margin: 5px;
+    border: solid 2px navy;
+  }
+
+  .miniatura:target {
+    width: 30%;
+  }
+
+</style>
+</head>
+<body>
+
+  <h1>Selectores de evento (pseudoclases)</h1>
+
+  <ul class="barraPestanias">
+    <li><a class="pestaniaActiva" href="./index.html">Opcion 1.</a></li>
+    <li><a href="./respuesta2.html">Opcion 2.</a></li>
+    <li><a href="./respuesta3.html">Opcion 3.</a></li>
+  </ul>
+
+  <form>
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido">
+    <label for="nombres">Nombres:</label>
+    <input type="text" id="nombres" name="nombres">
+  </form>
+
+  <h2>Expandir la imagen al 30% del contenedor padre con un click</h2>
+  <p>
+    <a href="#imgFuji">Ver Fuji</a> |
+    <a href="#imgTigre">Ver Tigre</a> |
+    <a href="#imgMontana">Ver Montaña</a> |
+    <a href="#imgFlores">Ver Flores</a>
+  </p>
+  <img id="imgFuji" class="miniatura" src="./fuji.jpg" alt="Fuji">
+  <img id="imgTigre" class="miniatura" src="./tigre.jpg" alt="Tigre">
+  <img id="imgMontana" class="miniatura" src="./montana.jpg" alt="Montaña">
+  <img id="imgFlores" class="miniatura" src="./flores.jpg" alt="Flores">
+
+  <p><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

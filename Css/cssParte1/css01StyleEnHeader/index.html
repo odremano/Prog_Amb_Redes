@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>css01StyleEnHeader</title>
+<style>
+
+  h1 {
+    font-size: 2em; /* Una vez y medio lo definido para el contenedor padre */
+    color: darkblue;
+    text-align: center;
+    background-color: aquamarine;
+  }
+
+  p {
+    text-align: left;
+    font-size: 1em;
+    color: blue;
+    font-style: italic;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-width: thin;
+    border-color: blue;
+  }
+
+</style>
+</head>
+<body>
+
+  <h1>Declaraciones en bloque definidas entre etiquetas style</h1>
+
+  <p>La etiqueta h1 ocupa todo el ancho de su contenedor padre por default (lleva un display de tipo bloque),
+  por eso el fondo aquamarine se extiende de extremo a extremo aunque el texto esté centrado.</p>
+
+  <p>Este párrafo toma el estilo definido para toda etiqueta p del documento: texto azul, en cursiva
+  y con un borde superior e inferior finos y sólidos. Este bloque de declaraciones fue escrito dentro
+  de la etiqueta &lt;style&gt;&lt;/style&gt; ubicada en el encabezado (head) del documento, reemplazando
+  el uso del atributo style="" dentro de cada etiqueta individual.</p>
+
+  <h1>Otro título de nivel 1</h1>
+
+  <p>Otro párrafo más, para verificar que el estilo se aplica en cascada a todas las etiquetas p y h1
+  del documento sin necesidad de repetir declaraciones.</p>
+
+  <p><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

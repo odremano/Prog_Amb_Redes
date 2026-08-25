@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Respuesta al Formulario</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Respuesta al Formulario</h1>
+
+  <p>Estos son los valores recibidos por método GET en la URL:</p>
+  <ul id="listaParametros"></ul>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var lista = document.getElementById('listaParametros');
+    if ([...params].length === 0) {
+      lista.innerHTML = '<li>No se recibió ningún parámetro.</li>';
+    } else {
+      params.forEach(function (valor, nombre) {
+        var li = document.createElement('li');
+        li.textContent = nombre + ' = ' + valor;
+        lista.appendChild(li);
+      });
+    }
+  </script>
+
+  <p><a href="./index.html">Volver al formulario</a></p>
+
+</body>
+</html>
