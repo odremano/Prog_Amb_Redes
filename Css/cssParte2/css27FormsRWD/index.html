@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Formulario responsivo en grilla con @media</title>
+<style>
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .franja {
+    background-color: #1f8a8a;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 12px;
+  }
+
+  form {
+    width: 100%;
+    overflow: auto; /* aparece barra de scroll si el contenido supera el alto disponible */
+  }
+
+  label {
+    display: block; /* el input asociado va al siguiente renglón */
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .entrada {
+    text-align: left;
+    float: left;
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    padding: 1%;
+    width: 100%; /* en pantallas chicas, una entrada por fila */
+  }
+
+  /* Consulta de medios para otorgar la responsividad */
+  @media (min-width: 700px) and (max-width: 900px) {
+    .entrada {
+      width: 25%; /* 4 entradas por fila */
+    }
+  }
+
+  @media (min-width: 900px) {
+    .entrada {
+      width: 20%; /* 5 entradas por fila */
+    }
+  }
+
+  div.barraControl {
+    clear: both; /* corta la flotación de todas las entradas anteriores */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-color: #5a5a5a;
+    padding: 16px;
+  }
+
+  .boton {
+    width: 120px;
+    height: 40px;
+    background-color: #dddddd;
+    cursor: pointer;
+    border: none;
+  }
+
+</style>
+</head>
+<body>
+
+  <div class="franja">Formulario</div>
+
+  <form>
+
+    <div class="entrada">
+      <label for="apellido">Apellido:</label>
+      <input type="text" id="apellido" name="apellido" title="Ingrese aquí nombres completos">
+    </div>
+
+    <div class="entrada">
+      <label for="nombres">Nombres:</label>
+      <input type="text" id="nombres" name="nombres">
+    </div>
+
+    <div class="entrada">
+      <label for="clave">Contraseña:</label>
+      <input type="password" id="clave" name="clave">
+    </div>
+
+    <div class="entrada">
+      <label for="campoDeshabilitado">Campo deshabilitado:</label>
+      <input type="text" id="campoDeshabilitado" name="campoDeshabilitado" value="valor deshabilitado" disabled="disabled">
+    </div>
+
+    <div class="entrada">
+      <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" name="fecha">
+    </div>
+
+    <div class="entrada">
+      <label for="dni">DNI:</label>
+      <input type="text" id="dni" name="dni">
+    </div>
+
+    <div class="entrada">
+      <label>Actividades extracurriculares:</label>
+      <input type="checkbox" id="musica" name="musica" value="si"> <label for="musica" style="display:inline;font-weight:normal;">Música</label><br>
+      <input type="checkbox" id="pintura" name="pintura" value="si"> <label for="pintura" style="display:inline;font-weight:normal;">Pintura artística</label>
+    </div>
+
+    <div class="entrada">
+      <label>Sexo:</label>
+      <input type="radio" id="masculino" name="sexo" value="m" checked="checked"> <label for="masculino" style="display:inline;font-weight:normal;">Masculino</label><br>
+      <input type="radio" id="femenino" name="sexo" value="f"> <label for="femenino" style="display:inline;font-weight:normal;">Femenino</label>
+    </div>
+
+    <div class="entrada">
+      <label>&nbsp;</label>
+      Vacío
+    </div>
+
+    <div class="entrada">
+      <label for="estudios">Estudios cursados:</label>
+      <select id="estudios" name="estudios">
+        <option value="pri" selected="selected">Primarios</option>
+        <option value="sec">Secundarios</option>
+        <option value="ter">Terciarios</option>
+        <option value="uni">Universitarios</option>
+        <option value="pos">Postgrado</option>
+      </select>
+    </div>
+
+    <div class="entrada">
+      <label for="area">Área de desempeño:</label>
+      <select id="area" name="area">
+        <option value="adm" selected="selected">Administración</option>
+        <option value="ven">Ventas</option>
+        <option value="pro">Producción</option>
+        <option value="sis">Sistemas</option>
+        <option value="rrhh">RRHH</option>
+      </select>
+    </div>
+
+    <div class="entrada">
+      <label for="turno">Turno:</label>
+      <select id="turno" name="turno">
+        <option value="man" selected="selected">Mañana</option>
+        <option value="tar">Tarde</option>
+        <option value="noc">Noche</option>
+      </select>
+    </div>
+
+    <div class="entrada">
+      <label>Conduce:</label>
+      <input type="radio" id="conduceSi" name="conduce" value="si" checked="checked"> <label for="conduceSi" style="display:inline;font-weight:normal;">SI</label>
+      <input type="radio" id="conduceNo" name="conduce" value="no"> <label for="conduceNo" style="display:inline;font-weight:normal;">No</label>
+    </div>
+
+    <div class="barraControl">
+      <button type="submit" class="boton">Enviar</button>
+      <button type="reset" class="boton">Reset</button>
+    </div>
+
+  </form>
+
+  <div class="franja">Pie de formulario</div>
+
+  <p style="text-align:center;padding:12px;"><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

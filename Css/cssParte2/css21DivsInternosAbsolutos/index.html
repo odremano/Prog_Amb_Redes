@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Posicionamiento absoluto con transform (rotar y desplazar)</title>
+<style>
+
+  html, body {
+    height: 100%; /* tanto el documento como su body ocupan el 100% del alto de la ventana */
+    margin: 0;
+    background-color: #bce0ea;
+  }
+
+  h1 {
+    text-align: center;
+    padding: 10px;
+  }
+
+  #contenedorInterno1 {
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    width: 40%;
+    height: 40%;
+    overflow: auto;
+    font-size: 1vw; /* letra responsiva, relativa al viewport */
+    z-index: 2;
+    background-color: #00ffa0;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  #contenedorInterno3 {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    width: 40%;
+    height: 40%;
+    overflow: auto;
+    font-size: 1vw;
+    z-index: 3; /* queda por encima del que lleva valor 2 */
+    background-color: #aaaaaa;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  #contenedorInterno2 {
+    position: absolute;
+    top: 60%;
+    left: 55%;
+    width: 250px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    transform: rotateZ(-15deg); /* rotación de 15 grados respecto al eje perpendicular al plano */
+  }
+
+  .barraRotada {
+    background-color: yellowgreen;
+    padding: 6px;
+  }
+
+  .imagenDesplazada {
+    display: block;
+    margin-top: 20px;
+    max-width: 300px;
+    transform: translateX(-20%); /* corrimiento hacia la izquierda, relativo al ancho de la imagen */
+  }
+
+</style>
+</head>
+<body>
+
+  <h1>Estructura de posicionamiento absoluto adaptable al medio de presentación</h1>
+
+  <div id="contenedorInterno1">
+    Contenedor interno 1.<br>
+    ad fasd asd asdf asdf asdf asd fasd fasd fasd fasd fa adf asdf adsf asdf asd fasdf asdf asdf
+  </div>
+
+  <div id="contenedorInterno3">
+    Contenedor interno 3.<br>
+    ad fasd asd asdf asdf asdf asd fasd fasd fasd fasd fa adf asdf adsf asdf asd fasdf asdf asdf
+  </div>
+
+  <div id="contenedorInterno2">
+    <div class="barraRotada">Contenedor interno 2</div>
+    <img class="imagenDesplazada" src="./montana-nevada.jpg" alt="Montaña nevada">
+  </div>
+
+  <p style="position:absolute; bottom:10px; left:10px;"><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

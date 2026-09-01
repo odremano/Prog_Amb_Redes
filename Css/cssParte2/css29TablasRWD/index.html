@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tabla responsiva con atributos personalizados y filas alternadas</title>
+<style>
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .franja {
+    background-color: #1f8a8a;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 12px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background-color: #f47a6e;
+    font-variant: small-caps;
+  }
+
+  thead th {
+    padding: 8px;
+  }
+
+  tbody {
+    background-color: #127a73;
+    color: white;
+  }
+
+  tbody td {
+    padding: 8px;
+  }
+
+  tbody tr:nth-child(odd) {
+    background: rgba(0,0,0,0.2); /* filas impares levemente más oscuras */
+  }
+
+  /* Atributo genérico: agrupa todas las celdas de una misma columna sin importar la fila */
+  [campo-dato='Id'] {
+    width: 5%;
+  }
+
+  /* En pantallas angostas se oculta la columna Skype para no perder legibilidad */
+  @media (max-width: 700px) {
+    [campo-dato='Skype'] {
+      display: none;
+    }
+  }
+
+  .piePagina {
+    background-color: #cccccc;
+    text-align: center;
+    padding: 8px;
+  }
+
+</style>
+</head>
+<body>
+
+  <div class="franja">RWD (Responsive Web Design) TABLE:</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th campo-dato="Id">Id</th>
+        <th campo-dato="Nick">Nick</th>
+        <th campo-dato="Mail">Mail</th>
+        <th campo-dato="Web">Web</th>
+        <th campo-dato="Twitter">Twitter</th>
+        <th campo-dato="Skype">Skype</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td campo-dato="Id">1</td>
+        <td campo-dato="Nick">Fu</td>
+        <td campo-dato="Mail">fulano@gmail.com</td>
+        <td campo-dato="Web"><a href="http://fulano.ar">http://fulano.ar</a></td>
+        <td campo-dato="Twitter">@fulano</td>
+        <td campo-dato="Skype">fulano@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">2</td>
+        <td campo-dato="Nick">Menga</td>
+        <td campo-dato="Mail">mengano@mail.com</td>
+        <td campo-dato="Web"><a href="http://mengano.com">http://mengano.com</a></td>
+        <td campo-dato="Twitter">@Mengano</td>
+        <td campo-dato="Skype">mengano@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">3</td>
+        <td campo-dato="Nick">Zulti</td>
+        <td campo-dato="Mail">zultano@gmail.com</td>
+        <td campo-dato="Web"><a href="http://zutano.org">http://zutano.org</a></td>
+        <td campo-dato="Twitter">@zultano</td>
+        <td campo-dato="Skype">zultano@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">4</td>
+        <td campo-dato="Nick">lu</td>
+        <td campo-dato="Mail">luis@mail.ar</td>
+        <td campo-dato="Web"><a href="http://luis.music">http://luis.music</a></td>
+        <td campo-dato="Twitter">@luis</td>
+        <td campo-dato="Skype">luis@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">5</td>
+        <td campo-dato="Nick">Pepe</td>
+        <td campo-dato="Mail">jose@gmail.com</td>
+        <td campo-dato="Web"><a href="http://jose.com.ar">http://jose.com.ar</a></td>
+        <td campo-dato="Twitter">@jose</td>
+        <td campo-dato="Skype">jose@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">6</td>
+        <td campo-dato="Nick">Gato</td>
+        <td campo-dato="Mail">eduardo@mail.com</td>
+        <td campo-dato="Web"><a href="http://gato.com">http://gato.com</a></td>
+        <td campo-dato="Twitter">@gato</td>
+        <td campo-dato="Skype">eduardo@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">7</td>
+        <td campo-dato="Nick">Dulce</td>
+        <td campo-dato="Mail">lilia@mail.com</td>
+        <td campo-dato="Web"><a href="http://lili">http://lili</a></td>
+        <td campo-dato="Twitter">@lili</td>
+        <td campo-dato="Skype">lilia@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">8</td>
+        <td campo-dato="Nick">Fu</td>
+        <td campo-dato="Mail">fulano@gmail.com</td>
+        <td campo-dato="Web"><a href="http://fulano.ar">http://fulano.ar</a></td>
+        <td campo-dato="Twitter">@fulano</td>
+        <td campo-dato="Skype">fulano@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">9</td>
+        <td campo-dato="Nick">Menga</td>
+        <td campo-dato="Mail">mengano@mail.com</td>
+        <td campo-dato="Web"><a href="http://mengano.com">http://mengano.com</a></td>
+        <td campo-dato="Twitter">@Mengano</td>
+        <td campo-dato="Skype">mengano@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">10</td>
+        <td campo-dato="Nick">Zulti</td>
+        <td campo-dato="Mail">zultano@gmail.com</td>
+        <td campo-dato="Web"><a href="http://zutano.org">http://zutano.org</a></td>
+        <td campo-dato="Twitter">@zultano</td>
+        <td campo-dato="Skype">zultano@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">11</td>
+        <td campo-dato="Nick">lu</td>
+        <td campo-dato="Mail">luis@mail.ar</td>
+        <td campo-dato="Web"><a href="http://luis.music">http://luis.music</a></td>
+        <td campo-dato="Twitter">@luis</td>
+        <td campo-dato="Skype">luis@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">12</td>
+        <td campo-dato="Nick">Pepe</td>
+        <td campo-dato="Mail">jose@gmail.com</td>
+        <td campo-dato="Web"><a href="http://jose.com.ar">http://jose.com.ar</a></td>
+        <td campo-dato="Twitter">@jose</td>
+        <td campo-dato="Skype">jose@gmail.com</td>
+      </tr>
+      <tr>
+        <td campo-dato="Id">13</td>
+        <td campo-dato="Nick">Gato</td>
+        <td campo-dato="Mail">eduardo@mail.com</td>
+        <td campo-dato="Web"><a href="http://gato.com">http://gato.com</a></td>
+        <td campo-dato="Twitter">@gato</td>
+        <td campo-dato="Skype">eduardo@gmail.com</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="piePagina">Pie</div>
+
+  <p style="text-align:center;padding:12px;"><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>

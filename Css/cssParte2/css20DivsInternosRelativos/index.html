@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Posicionamiento relativo y ventana modal fija</title>
+<style>
+
+  html, body {
+    margin: 0px;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: blue; /* franja visible donde el contenido no ocupa el 100% del ancho */
+  }
+
+  .contenido {
+    max-width: 70%;
+    background-color: #fffde0;
+    padding: 20px;
+  }
+
+  .contenedorRelativoClase1 {
+    position: relative; /* posicionamiento default, se aclara igual */
+    margin-left: 0%;    /* coordenada en x respecto al borde del contenedor padre */
+    margin-top: 10px;   /* coordenada en y respecto al borde inferior del div anterior */
+    background-color: #00a550;
+    color: white;
+    padding: 10px;
+  }
+
+  .contenedorRelativoClase2 {
+    position: relative;
+    margin-top: 10px;
+    background-color: yellow;
+    padding: 10px;
+  }
+
+  .contenedorRelativoClase3 {
+    position: relative;
+    margin-top: 10px;
+    background-color: #8b5a5a;
+    color: white;
+    border: solid 2px #5a3a3a;
+    padding: 10px;
+    height: 80px;      /* altura fija menor al contenido -> aparece scroll */
+    overflow-y: auto;
+  }
+
+  .filaDestacada {
+    background-color: orange;
+  }
+
+  .paraVentanaModal {
+    position: fixed;    /* se ubica por coordenadas absolutas respecto al viewport */
+    width: 40%;
+    height: 40%;
+    top: 20%;
+    left: 25%;
+    opacity: 0.5;        /* transparencia del 50%, se ve lo que está debajo */
+    overflow-y: auto;    /* barra de scroll si el contenido supera su altura */
+    visibility: visible;
+    z-index: 10;          /* queda por encima de todo lo demás */
+    background-color: #8577b3;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+</style>
+</head>
+<body>
+
+  <div class="contenido">
+
+    <h1>Contenedores relativos</h1>
+
+    <div class="contenedorRelativoClase1">Contenedor relativo clase1</div>
+    <div class="contenedorRelativoClase1">Contenedor relativo clase1</div>
+
+    <div class="contenedorRelativoClase2">Contenedor relativo clase2</div>
+    <div class="contenedorRelativoClase2">
+      Contenedor relativo clase2<br>
+      Contenedor relativo clase2<br>
+      Contenedor relativo clase2<br>
+      Contenedor relativo clase2<br>
+      Contenedor relativo clase2
+    </div>
+
+    <div class="contenedorRelativoClase3">
+      Contenedor relativo clase3<br>
+      texto texto texto texto<br>
+      texto texto texto texto<br>
+      texto texto texto texto<br>
+      <span class="filaDestacada">texto texto texto texto</span>
+    </div>
+
+  </div>
+
+  <div class="paraVentanaModal">
+    Contenedor Modal<br>
+    Contenedor Modal<br>
+    Contenedor Modal<br>
+    Contenedor Modal<br>
+    Contenedor Modal<br>
+    Contenedor Modal
+  </div>
+
+  <p><a href="../../index.html">Volver al índice de Css</a></p>
+
+</body>
+</html>
