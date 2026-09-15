@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS07 - Eventos con addEventListener</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:40px;">
+
+  <h1>Ejercicio 7: eventos con addEventListener</h1>
+
+  <p>
+    <label>Nombre: <input type="text" id="nombre"></label>
+    <button id="btnSaludo">Saludar</button>
+  </p>
+
+  <div id="resultado"></div>
+
+  <script>
+    document.getElementById("btnSaludo").addEventListener("click", function() {
+      const objNombre = document.getElementById("nombre");
+      document.getElementById("resultado").innerHTML = "<p>Hola, " + objNombre.value + "!</p>";
+    });
+
+    /* Al perder el foco, el texto ingresado se pasa a mayúsculas */
+    document.getElementById("nombre").addEventListener("focusout", function() {
+      this.value = this.value.toUpperCase();
+    });
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

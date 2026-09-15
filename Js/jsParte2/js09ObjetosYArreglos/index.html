@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS09 - Objetos y arreglo de objetos</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:40px;">
+
+  <h1>Ejercicio 9: estructura de datos tipo objeto y arreglo de objetos</h1>
+
+  <script>
+    let libro1 = { titulo: "Cien años de soledad", autor: "Gabriel García Márquez", anio: "1967" };
+
+    let arregloLibros = [libro1];
+    arregloLibros.push({ titulo: "1984", autor: "George Orwell", anio: "1949" });
+
+    document.write("<h3>Cantidad de libros: " + arregloLibros.length + "</h3>");
+
+    arregloLibros.forEach(function(item, indice) {
+      document.write("<p>" + (indice + 1) + ") " + item.titulo + " - " + item.autor + " (" + item.anio + ")</p>");
+    });
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>
