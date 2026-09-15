@@ -17,11 +17,11 @@
   <div id="contenedor"></div>
 
   <script>
-    var contador = 0;
+    let contador = 0;
 
     document.getElementById("btnCrear").addEventListener("click", function() {
       contador++;
-      var objDiv = document.createElement("div");
+      const objDiv = document.createElement("div");
       objDiv.innerHTML = "Elemento número: " + contador;
       objDiv.className = "cajaCreada";
       document.getElementById("contenedor").appendChild(objDiv);

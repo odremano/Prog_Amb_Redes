@@ -18,11 +18,11 @@
   <div id="listado"></div>
 
   <script>
-    var arregloTareas = [];
+    let arregloTareas = [];
 
     document.getElementById("btnAlta").addEventListener("click", function() {
       if (document.getElementById("formTarea").checkValidity()) {
-        var nuevaTarea = {
+        const nuevaTarea = {
           descripcion: document.getElementById("descripcion").value,
           prioridad: document.getElementById("prioridad").value
         };
@@ -36,7 +36,7 @@
     });
 
     document.getElementById("btnVaciar").addEventListener("click", function() {
-      var confirma = confirm("¿Está seguro de vaciar la lista de tareas?");
+      const confirma = confirm("¿Está seguro de vaciar la lista de tareas?");
       if (confirma) {
         arregloTareas = [];
         mostrarTareas();
@@ -44,7 +44,7 @@
     });
 
     function mostrarTareas() {
-      var texto = "<h3>Tareas cargadas: " + arregloTareas.length + "</h3>";
+      let texto = "<h3>Tareas cargadas: " + arregloTareas.length + "</h3>";
       arregloTareas.forEach(function(item, indice) {
         texto = texto + "<p>" + (indice + 1) + ") " + item.descripcion + " - prioridad " + item.prioridad + "</p>";
       });
