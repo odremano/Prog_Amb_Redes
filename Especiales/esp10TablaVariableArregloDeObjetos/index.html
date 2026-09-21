@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ESP10 - Tabla con variable JSON</title>
+<link rel="stylesheet" href="../estilo.css">
+<script src="../jquery.js"></script>
+<script src="../datosNotasDebito.js"></script>
+<script>
+
+  /* Crea una celda de la tabla: recibe el nombre del campo y el valor a mostrar */
+  function creaCelda(argCampo, argValor) {
+    const objTd = document.createElement("td");
+    objTd.setAttribute("campo-dato", argCampo);
+    objTd.innerHTML = argValor;
+    return objTd;
+  }
+
+  /* Muestra en el pie de la tabla cuántas filas hay cargadas */
+  function actualizaPie() {
+    const cantidad = document.getElementById("tbDatos").childNodes.length;
+    document.getElementById("tdCantidad").innerHTML = "Cantidad de comprobantes: " + cantidad;
+  }
+
+  /* Barre el arreglo de objetos del JSON y crea una fila por cada nota de débito */
+  function cargaFilas() {
+    const objJson = JSON.parse(textoNotasDebito);
+    const objTbDatos = document.getElementById("tbDatos");
+
+    objJson.notasDebito.forEach(function(argValor, argIndice) {
+      const objTr = document.createElement("tr");
+      objTr.appendChild(creaCelda("nroComprobante", argValor.nroComprobante));
+      objTr.appendChild(creaCelda("nroFacturaImputada", argValor.nroFacturaImputada));
+      objTr.appendChild(creaCelda("codigoTipo", argValor.codigoTipo));
+      objTr.appendChild(creaCelda("codCliente", argValor.codCliente));
+      objTr.appendChild(creaCelda("razonSocial", argValor.razonSocial));
+      objTr.appendChild(creaCelda("fechaComprobante", argValor.fechaComprobante));
+      objTr.appendChild(creaCelda("totalComprobante", argValor.totalComprobante));
+      objTbDatos.appendChild(objTr);
+    });
+  }
+
+  $(document).ready(function() {
+
+    $("#btCargar").click(function() {
+      $("#tbDatos").empty();
+      cargaFilas();
+      actualizaPie();
+    });
+
+    $("#btVaciar").click(function() {
+      $("#tbDatos").empty();
+      actualizaPie();
+    });
+
+  });
+
+</script>
+</head>
+<body>
+
+  <div class="barra">
+    <h2>Notas de débito de ventas</h2>
+    <div class="botones">
+      <button type="button" id="btCargar">Cargar datos</button>
+      <button type="button" id="btVaciar">Vaciar datos</button>
+    </div>
+  </div>
+
+  <div class="tablaScroll">
+    <table>
+      <thead>
+        <tr>
+          <th>NroComprobante</th>
+          <th>NroDeFacturaImputada</th>
+          <th>TipoComprobante</th>
+          <th>CodCliente</th>
+          <th>RazonSocial</th>
+          <th>fechaComprobante</th>
+          <th>TotalComprobante</th>
+        </tr>
+      </thead>
+      <tbody id="tbDatos"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="7" id="tdCantidad">Cantidad de comprobantes: 0</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="pie">Pie</div>
+
+  <p style="margin:20px;"><a href="../index.html">Volver al índice de Especiales</a></p>
+
+</body>
+</html>
