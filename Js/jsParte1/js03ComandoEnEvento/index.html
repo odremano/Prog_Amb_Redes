@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS03 - Comando en evento</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:40px;">
+
+  <h1>Ejercicio 3: comando en evento</h1>
+
+  <p>
+    El código de JavaScript se asocia a un elemento HTML (un botón) y se ejecuta cuando ocurre
+    un evento (el click). Se escribe como valor del atributo de evento onClick.
+  </p>
+
+  <button onClick="alert('Este alert se ejecutó al hacer click en el botón')">
+    Ejecutar alert()
+  </button>
+
+  <button onClick="document.write('<h2>Este texto lo escribió document.write() al hacer click. Recargá la página (F5) para volver.</h2>')">
+    Ejecutar document.write()
+  </button>
+
+  <p>
+    Al hacer click en el segundo botón, document.write() reemplaza todo el contenido de la página:
+    el flujo de escritura ya está cerrado y la función pisa el documento original.
+  </p>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>
