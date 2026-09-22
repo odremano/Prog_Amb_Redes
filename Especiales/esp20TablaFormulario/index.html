@@ -45,12 +45,12 @@
   }
 
   function abreModal() {
-    $("#contenedor").attr("class", "contenedorPasivo");
+    $("#contenedor").attr("class", "contenedorPasivo paginaTabla");
     $("#ventanaModal").attr("class", "ventanaModal ventanaModalPrendido");
   }
 
   function cierraModal() {
-    $("#contenedor").attr("class", "contenedorActivo");
+    $("#contenedor").attr("class", "contenedorActivo paginaTabla");
     $("#ventanaModal").attr("class", "ventanaModal ventanaModalApagado");
   }
 
@@ -109,7 +109,7 @@
 <body>
 
   <!-- Contenedor principal con la tabla: se desactiva mientras la ventana modal está abierta -->
-  <div id="contenedor" class="contenedorActivo">
+  <div id="contenedor" class="contenedorActivo paginaTabla">
 
     <div class="barra">
       <h2>Notas de débito de ventas</h2>
@@ -144,9 +144,9 @@
 
     <div class="pie">Pie</div>
 
-    <p style="margin:20px;"><a href="../index.html">Volver al índice de Especiales</a></p>
-
   </div>
+
+  <p style="margin:10px 20px;"><a href="../index.html">Volver al índice de Especiales</a></p>
 
   <!-- Ventana modal con el formulario de alta -->
   <div id="ventanaModal" class="ventanaModal ventanaModalApagado">

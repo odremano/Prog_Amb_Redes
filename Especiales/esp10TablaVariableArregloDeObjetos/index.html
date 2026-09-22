@@ -59,39 +59,43 @@
 </head>
 <body>
 
-  <div class="barra">
-    <h2>Notas de débito de ventas</h2>
-    <div class="botones">
-      <button type="button" id="btCargar">Cargar datos</button>
-      <button type="button" id="btVaciar">Vaciar datos</button>
+  <div class="paginaTabla">
+
+    <div class="barra">
+      <h2>Notas de débito de ventas</h2>
+      <div class="botones">
+        <button type="button" id="btCargar">Cargar datos</button>
+        <button type="button" id="btVaciar">Vaciar datos</button>
+      </div>
     </div>
+
+    <div class="tablaScroll">
+      <table>
+        <thead>
+          <tr>
+            <th>NroComprobante</th>
+            <th>NroDeFacturaImputada</th>
+            <th>TipoComprobante</th>
+            <th>CodCliente</th>
+            <th>RazonSocial</th>
+            <th>fechaComprobante</th>
+            <th>TotalComprobante</th>
+          </tr>
+        </thead>
+        <tbody id="tbDatos"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7" id="tdCantidad">Cantidad de comprobantes: 0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="pie">Pie</div>
+
   </div>
 
-  <div class="tablaScroll">
-    <table>
-      <thead>
-        <tr>
-          <th>NroComprobante</th>
-          <th>NroDeFacturaImputada</th>
-          <th>TipoComprobante</th>
-          <th>CodCliente</th>
-          <th>RazonSocial</th>
-          <th>fechaComprobante</th>
-          <th>TotalComprobante</th>
-        </tr>
-      </thead>
-      <tbody id="tbDatos"></tbody>
-      <tfoot>
-        <tr>
-          <td colspan="7" id="tdCantidad">Cantidad de comprobantes: 0</td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-
-  <div class="pie">Pie</div>
-
-  <p style="margin:20px;"><a href="../index.html">Volver al índice de Especiales</a></p>
+  <p style="margin:10px 20px;"><a href="../index.html">Volver al índice de Especiales</a></p>
 
 </body>
 </html>

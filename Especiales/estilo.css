@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -80,7 +84,19 @@ button:hover {
 }
 
 /* ---------- Tabla de datos ---------- */
+/* Layout de altura completa: la barra y el pie quedan fijos, y solo
+   .tablaScroll (los datos) tiene scroll propio. Nunca debe aparecer
+   scroll horizontal: por eso la tabla usa table-layout fijo y el
+   texto se ajusta en vez de desbordar. */
+.paginaTabla {
+  display: flex;
+  flex-direction: column;
+  height: 88vh;
+  overflow: hidden;
+}
+
 .barra {
+  flex: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -95,22 +111,21 @@ button:hover {
 
 .botones {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 .tablaScroll {
-  overflow-x: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
-}
-
-thead {
-  background-color: #2f4b6e;
-  color: white;
-  font-variant: small-caps;
 }
 
 thead th,
@@ -118,6 +133,16 @@ tbody td,
 tfoot td {
   padding: 10px;
   text-align: left;
+  overflow-wrap: break-word;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #2f4b6e;
+  color: white;
+  font-variant: small-caps;
 }
 
 tbody tr:nth-child(odd) {
@@ -128,9 +153,26 @@ tbody tr:nth-child(even) {
   background-color: #c8d4e4;
 }
 
-tfoot {
+tfoot td {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
   background-color: #2f4b6e;
   color: white;
+}
+
+@media (max-width: 900px) {
+  thead th, tbody td, tfoot td {
+    font-size: 12px;
+    padding: 6px 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  thead th, tbody td, tfoot td {
+    font-size: 10px;
+    padding: 4px 2px;
+  }
 }
 
 /* ---------- Ventana modal y contenedor principal ---------- */
