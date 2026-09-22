@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS15 - Variables de tipo objeto de dato</title>
+<style>
+  .contenedor { background-color: #fef9d9; padding: 12px; margin-bottom: 10px; max-width: 420px; }
+</style>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 15: variables de tipo objeto de dato</h1>
+
+  <div id="contenedorIngreso" class="contenedor">
+    <h2>Ingreso de datos de persona:</h2>
+    <p>Nombre: <input type="text" id="nombre" required></p>
+    <p>Apellido: <input type="text" id="apellido" required></p>
+    <p>Fecha de Nacimiento: <input type="date" id="fechaNacimiento" required></p>
+  </div>
+
+  <div id="contenedorControl" class="contenedor">
+    <h2>Control</h2>
+    <button onclick="creaPersona()">Crea persona</button>
+    <button onclick="listaPersonas()">Lista personas</button>
+    <button onclick="ocultaPresentacion()">Oculta presentación</button>
+  </div>
+
+  <div id="contenedorPresentacion"></div>
+
+  <script>
+    /* Dos personas cargadas por programa, como objetos de dato */
+    let persona1 = { nombre: "Ana", apellido: "Gómez", fechaNacimiento: "1990-04-12" };
+    let persona2 = { nombre: "Luis", apellido: "Pérez", fechaNacimiento: "1985-09-03" };
+    let arregloPersonas = [persona1, persona2];
+
+    function creaPersona() {
+      const objNombre = document.getElementById("nombre");
+      const objApellido = document.getElementById("apellido");
+      const objFecha = document.getElementById("fechaNacimiento");
+
+      if (objNombre.checkValidity() && objApellido.checkValidity() && objFecha.checkValidity()) {
+        const nuevaPersona = {
+          nombre: objNombre.value,
+          apellido: objApellido.value,
+          fechaNacimiento: objFecha.value
+        };
+        arregloPersonas.push(nuevaPersona);
+        objNombre.value = "";
+        objApellido.value = "";
+        objFecha.value = "";
+      }
+      else {
+        alert("Complete todos los datos antes de crear la persona.");
+      }
+    }
+
+    function listaPersonas() {
+      let texto = "<table border='1' cellpadding='6'>";
+      texto = texto + "<tr><th>Nombre</th><th>Apellido</th><th>Fecha de Nacimiento</th></tr>";
+      arregloPersonas.forEach(function(item, indice) {
+        texto = texto + "<tr><td>" + item.nombre + "</td><td>" + item.apellido + "</td><td>" + item.fechaNacimiento + "</td></tr>";
+      });
+      texto = texto + "</table>";
+      texto = texto + "<p>Cantidad de personas: " + arregloPersonas.length + "</p>";
+
+      const objPresentacion = document.getElementById("contenedorPresentacion");
+      objPresentacion.innerHTML = texto;
+      objPresentacion.style.display = "block";
+    }
+
+    function ocultaPresentacion() {
+      document.getElementById("contenedorPresentacion").style.display = "none";
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

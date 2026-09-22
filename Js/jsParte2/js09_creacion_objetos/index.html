@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS18 - Creación de objetos</title>
+<style>
+  .elementoCreado { background-color: #bde0e6; border: 1px solid #333; padding: 10px; margin-bottom: 6px; font-weight: bold; }
+</style>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 18: creación de objetos</h1>
+
+  <button onclick="crear()">Crear</button>
+  <button onclick="limpiar()">Limpiar</button>
+  <button onclick="info()">Info</button>
+
+  <div id="contenedor" style="background-color:#fdfccb; padding:10px; margin-top:10px;"></div>
+
+  <script>
+    let contador = 0;
+
+    function crear() {
+      contador++;
+      const objDiv = document.createElement("div");
+      objDiv.innerHTML = "Elemento creado: " + contador;
+      objDiv.className = "elementoCreado";
+      document.getElementById("contenedor").appendChild(objDiv);
+    }
+
+    function limpiar() {
+      const objContenedor = document.getElementById("contenedor");
+      while (objContenedor.childNodes.length > 0) {
+        objContenedor.removeChild(objContenedor.childNodes[0]);
+      }
+      contador = 0;
+    }
+
+    function info() {
+      alert("Cantidad de elementos creados: " + document.getElementById("contenedor").childNodes.length);
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

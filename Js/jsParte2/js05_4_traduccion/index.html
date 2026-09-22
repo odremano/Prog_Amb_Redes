@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS14 - Traducción</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1 id="banner" onclick="traducir()" style="cursor:pointer;">Aprendé a <span style="font-size:0.6em;">estudiar en serio</span></h1>
+
+  <p>(Click en el título para traducirlo)</p>
+
+  <script>
+    let esEspanol = true;
+
+    function traducir() {
+      const objBanner = document.getElementById("banner");
+      if (esEspanol) {
+        objBanner.innerHTML = "Learn to <span style='font-size:0.6em;'>study seriously</span>";
+      }
+      else {
+        objBanner.innerHTML = "Aprendé a <span style='font-size:0.6em;'>estudiar en serio</span>";
+      }
+      esEspanol = !esEspanol;
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

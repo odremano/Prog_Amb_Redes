@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS08 - Operaciones entre inputs</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 8: operaciones entre inputs</h1>
+  <p>Introducir un valor en los cuadros de texto y luego pulsar el botón para ejecutar la función correspondiente.</p>
+
+  <p>Entrada 1: <input type="text" id="entrada1" value="0"></p>
+  <p>Entrada 2: <input type="text" id="entrada2" value="0"></p>
+  <p>Entrada 3: <input type="text" id="entrada3" value="0"></p>
+  <p>Resultado: <input type="text" id="resultado" value="0"></p>
+
+  <button onclick="suma()">Suma</button>
+  <button onclick="promedia()">Promedia</button>
+  <button onclick="mayor()">Mayor</button>
+
+  <script>
+    function suma() {
+      let e1 = parseFloat(document.getElementById("entrada1").value);
+      let e2 = parseFloat(document.getElementById("entrada2").value);
+      let e3 = parseFloat(document.getElementById("entrada3").value);
+      document.getElementById("resultado").value = e1 + e2 + e3;
+    }
+
+    function promedia() {
+      let e1 = parseFloat(document.getElementById("entrada1").value);
+      let e2 = parseFloat(document.getElementById("entrada2").value);
+      let e3 = parseFloat(document.getElementById("entrada3").value);
+      document.getElementById("resultado").value = (e1 + e2 + e3) / 3;
+    }
+
+    function mayor() {
+      let e1 = parseFloat(document.getElementById("entrada1").value);
+      let e2 = parseFloat(document.getElementById("entrada2").value);
+      let e3 = parseFloat(document.getElementById("entrada3").value);
+      let max = e1;
+      if (e2 > max) {
+        max = e2;
+      }
+      if (e3 > max) {
+        max = e3;
+      }
+      document.getElementById("resultado").value = max;
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

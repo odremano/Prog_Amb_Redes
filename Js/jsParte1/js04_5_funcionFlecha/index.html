@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS11 - Función flecha</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Función Flecha</h1>
+
+  <p><code>const suma =(a,b) =&gt; {c= a + b; return c}</code></p>
+
+  <input type="text" id="valorA">
+  <input type="text" id="valorB">
+  <button onclick="calcularSuma()">suma</button>
+  <input type="text" id="resultado" readonly>
+
+  <script>
+    const suma = (a, b) => {
+      c = a + b;
+      return c;
+    };
+
+    function calcularSuma() {
+      let a = parseFloat(document.getElementById("valorA").value);
+      let b = parseFloat(document.getElementById("valorB").value);
+      document.getElementById("resultado").value = suma(a, b);
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

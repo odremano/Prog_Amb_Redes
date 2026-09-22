@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS16 - Validación con keyup</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejer validación de un INPUT de formulario en el evento de onKeyUp</h1>
+
+  <form id="formFecha">
+    <p>Ingrese el día del mes: <input type="number" id="dia" min="1" max="31" required></p>
+    <p>Ingrese el mes: <input type="number" id="mes" min="1" max="12" required></p>
+    <button type="submit" id="btEnviar" disabled>Enviar</button>
+    <button type="reset" id="btReset">Reset</button>
+  </form>
+
+  <script>
+    /* El botón Enviar solo se habilita cuando los dos campos son válidos según los min/max de HTML5 */
+    function validarFormulario() {
+      document.getElementById("btEnviar").disabled = !document.getElementById("formFecha").checkValidity();
+    }
+
+    document.getElementById("dia").addEventListener("keyup", validarFormulario);
+    document.getElementById("mes").addEventListener("keyup", validarFormulario);
+
+    document.getElementById("btReset").addEventListener("click", function() {
+      document.getElementById("btEnviar").disabled = true;
+    });
+
+    document.getElementById("formFecha").addEventListener("submit", function(evento) {
+      evento.preventDefault();
+      alert("Día: " + document.getElementById("dia").value + " / Mes: " + document.getElementById("mes").value);
+    });
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

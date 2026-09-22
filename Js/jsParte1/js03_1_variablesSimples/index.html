@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS04 - Variables simples</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 4: variables simples</h1>
+
+  <!-- Cada botón asigna (o solo muestra) una variable y escribe su valor y su tipo en el div de abajo -->
+  <button onclick="muestra('z', z)">var z;</button>
+  <button onclick="q = 'Valor asignado a q'; muestra('q', q)">let q;</button>
+  <button onclick="a = 1; muestra('a', a)">var a=1;</button>
+  <button onclick="b = '1'; muestra('b', b)">var b="1";</button>
+  <button onclick="c = 2; muestra('c', c)">var c=2;</button>
+  <button onclick="suma1 = a + b; muestra('suma1', suma1)">suma1=a+b;</button>
+  <button onclick="suma2 = a + c; muestra('suma2', suma2)">suma2=a+c;</button>
+
+  <div id="resultado" style="background-color:lightblue; min-height:160px; margin-top:16px; padding:10px;"></div>
+
+  <script>
+    /* Variables globales: se declaran fuera de toda función para que todos los botones las compartan.
+       Se usa var en z, a, b y c a propósito, para compararla con let como hacen los botones. */
+    var z;
+    let q;
+    var a;
+    var b;
+    var c;
+    let suma1;
+    let suma2;
+
+    /* Escribe en el div el valor de una variable y su tipo de dato */
+    function muestra(argNombre, argValor) {
+      document.getElementById("resultado").innerHTML =
+        "<h3>Valor de " + argNombre + ": " + argValor + "</h3>" +
+        "<h3>Tipo de " + argNombre + ": " + typeof argValor + "</h3>";
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

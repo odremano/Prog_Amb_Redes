@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS01 - Sentencias</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:40px;">
+
+  <h1>Ejercicio 1: sentencias</h1>
+
+  <p>Texto 1: escrito directamente en HTML.</p>
+
+  <script>
+    /* El código de java script se escribe dentro de un marco de etiquetas script */
+    document.write("<p>Texto 2: escrito desde JavaScript con document.write().</p>");
+    alert("Alerta 3");
+  </script>
+
+  <p>Texto 4: escrito en HTML, después de la alerta 3.</p>
+
+  <script>
+    document.write("<p>Texto 5: escrito desde JavaScript, después de la alerta 3.</p>");
+    alert("Alerta 6");
+  </script>
+
+  <p>Texto 7: escrito en HTML, después de la alerta 6.</p>
+
+  <script>
+    document.write("<p>Texto 8: escrito desde JavaScript, después de la alerta 6.</p>");
+  </script>
+
+  <p>
+    El navegador lee el documento de arriba hacia abajo y ejecuta cada sentencia en orden.
+    Una alerta detiene esa lectura hasta que se la acepta, por eso los textos que la preceden
+    se ven recién después de aceptarla. document.write() solo sirve mientras el documento se
+    está leyendo (flujo de escritura abierto).
+  </p>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>
