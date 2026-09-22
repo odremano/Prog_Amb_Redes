@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>ESP20 - Tabla y formulario juntos</title>
 <link rel="stylesheet" href="../estilo.css">
-<script src="../jquery.js"></script>
 <script src="../datosNotasDebito.js"></script>
 <script>
 
@@ -26,6 +25,13 @@
     return objTd;
   }
 
+  function vaciarTabla() {
+    const objTbDatos = document.getElementById("tbDatos");
+    while (objTbDatos.childNodes.length > 0) {
+      objTbDatos.removeChild(objTbDatos.childNodes[0]);
+    }
+  }
+
   function actualizaPie() {
     const cantidad = document.getElementById("tbDatos").childNodes.length;
     document.getElementById("tdCantidad").innerHTML = "Cantidad de comprobantes: " + cantidad;
@@ -44,22 +50,24 @@
     document.getElementById("tbDatos").appendChild(objTr);
   }
 
+  /* className reemplaza las dos clases juntas: hay que conservar "paginaTabla"
+     para no perder el layout de header y pie fijos */
   function abreModal() {
-    $("#contenedor").attr("class", "contenedorPasivo paginaTabla");
-    $("#ventanaModal").attr("class", "ventanaModal ventanaModalPrendido");
+    document.getElementById("contenedor").className = "contenedorPasivo paginaTabla";
+    document.getElementById("ventanaModal").className = "ventanaModal ventanaModalPrendido";
   }
 
   function cierraModal() {
-    $("#contenedor").attr("class", "contenedorActivo paginaTabla");
-    $("#ventanaModal").attr("class", "ventanaModal ventanaModalApagado");
+    document.getElementById("contenedor").className = "contenedorActivo paginaTabla";
+    document.getElementById("ventanaModal").className = "ventanaModal ventanaModalApagado";
   }
 
-  $(document).ready(function() {
+  window.addEventListener("load", function() {
 
     creaOpciones();
 
-    $("#btCargar").click(function() {
-      $("#tbDatos").empty();
+    document.getElementById("btCargar").addEventListener("click", function() {
+      vaciarTabla();
       const objJson = JSON.parse(textoNotasDebito);
       objJson.notasDebito.forEach(function(argValor, argIndice) {
         agregaFila(argValor);
@@ -67,21 +75,21 @@
       actualizaPie();
     });
 
-    $("#btVaciar").click(function() {
-      $("#tbDatos").empty();
+    document.getElementById("btVaciar").addEventListener("click", function() {
+      vaciarTabla();
       actualizaPie();
     });
 
-    $("#btCargaForm").click(function() {
+    document.getElementById("btCargaForm").addEventListener("click", function() {
       abreModal();
     });
 
-    $("#btCierraModal").click(function() {
+    document.getElementById("btCierraModal").addEventListener("click", function() {
       cierraModal();
     });
 
     /* Alta: si el formulario es válido, se arma el objeto y se agrega como fila de la tabla */
-    $("#btEnviar").click(function() {
+    document.getElementById("btEnviar").addEventListener("click", function() {
       if (document.getElementById("formNota").checkValidity()) {
         const objNota = {
           nroComprobante: document.getElementById("nroComprobante").value,

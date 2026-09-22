@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>ESP05 - Formulario con variable JSON</title>
 <link rel="stylesheet" href="../estilo.css">
-<script src="../jquery.js"></script>
 <script src="../datosNotasDebito.js"></script>
 <script>
 
@@ -20,11 +19,11 @@
     });
   }
 
-  $(document).ready(function() {
+  window.addEventListener("load", function() {
 
     creaOpciones();
 
-    $("#btEnviar").click(function() {
+    document.getElementById("btEnviar").addEventListener("click", function() {
       if (document.getElementById("formNota").checkValidity()) {
         let texto = "<h3>Nota de débito cargada</h3>";
         texto = texto + "<p>NroComprobante: " + document.getElementById("nroComprobante").value + "</p>";
