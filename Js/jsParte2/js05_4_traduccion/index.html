@@ -6,22 +6,18 @@
 </head>
 <body style="font-family:Arial, sans-serif; margin:20px;">
 
-  <h1 id="banner" onclick="traducir()" style="cursor:pointer;">Aprendé a <span style="font-size:0.6em;">estudiar en serio</span></h1>
-
-  <p>(Click en el título para traducirlo)</p>
+  <h1 id="banner"></h1>
 
   <script>
-    let esEspanol = true;
+    /* navigator.language es una propiedad del BOM: el idioma configurado en el navegador */
+    let idioma = navigator.language;
+    let objBanner = document.getElementById("banner");
 
-    function traducir() {
-      const objBanner = document.getElementById("banner");
-      if (esEspanol) {
-        objBanner.innerHTML = "Learn to <span style='font-size:0.6em;'>study seriously</span>";
-      }
-      else {
-        objBanner.innerHTML = "Aprendé a <span style='font-size:0.6em;'>estudiar en serio</span>";
-      }
-      esEspanol = !esEspanol;
+    if (idioma.startsWith("es")) {
+      objBanner.innerHTML = "Aprendé a <span style='font-size:0.6em;'>estudiar en serio</span>";
+    }
+    else {
+      objBanner.innerHTML = "Learn to <span style='font-size:0.6em;'>study seriously</span>";
     }
   </script>
 

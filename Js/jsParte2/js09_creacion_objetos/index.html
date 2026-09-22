@@ -21,11 +21,11 @@
     let contador = 0;
 
     function crear() {
-      contador++;
       const objDiv = document.createElement("div");
       objDiv.innerHTML = "Elemento creado: " + contador;
       objDiv.className = "elementoCreado";
       document.getElementById("contenedor").appendChild(objDiv);
+      contador++;
     }
 
     function limpiar() {
