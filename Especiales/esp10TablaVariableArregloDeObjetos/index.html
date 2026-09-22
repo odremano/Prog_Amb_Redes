@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>ESP10 - Tabla con variable JSON</title>
 <link rel="stylesheet" href="../estilo.css">
-<script src="../jquery.js"></script>
 <script src="../datosNotasDebito.js"></script>
 <script>
 
@@ -14,6 +13,15 @@
     objTd.setAttribute("campo-dato", argCampo);
     objTd.innerHTML = argValor;
     return objTd;
+  }
+
+  /* No existe un método que borre todos los hijos de un elemento en un solo paso:
+     hay que ir sacando uno por uno con removeChild() mientras queden */
+  function vaciarTabla() {
+    const objTbDatos = document.getElementById("tbDatos");
+    while (objTbDatos.childNodes.length > 0) {
+      objTbDatos.removeChild(objTbDatos.childNodes[0]);
+    }
   }
 
   /* Muestra en el pie de la tabla cuántas filas hay cargadas */
@@ -40,16 +48,16 @@
     });
   }
 
-  $(document).ready(function() {
+  window.addEventListener("load", function() {
 
-    $("#btCargar").click(function() {
-      $("#tbDatos").empty();
+    document.getElementById("btCargar").addEventListener("click", function() {
+      vaciarTabla();
       cargaFilas();
       actualizaPie();
     });
 
-    $("#btVaciar").click(function() {
-      $("#tbDatos").empty();
+    document.getElementById("btVaciar").addEventListener("click", function() {
+      vaciarTabla();
       actualizaPie();
     });
 
