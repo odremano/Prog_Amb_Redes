@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ESP20 - Tabla y formulario juntos</title>
+<link rel="stylesheet" href="../estilo.css">
+<script src="../jquery.js"></script>
+<script src="../datosNotasDebito.js"></script>
+<script>
+
+  function creaOpciones() {
+    const objJson = JSON.parse(textoTiposComprobante);
+
+    objJson.tiposComprobante.forEach(function(argValor, argIndice) {
+      const objOpcion = document.createElement("option");
+      objOpcion.setAttribute("value", argValor.codigoTipo);
+      objOpcion.innerHTML = argValor.descripcionTipo;
+      document.getElementById("tipoComprobante").appendChild(objOpcion);
+    });
+  }
+
+  function creaCelda(argCampo, argValor) {
+    const objTd = document.createElement("td");
+    objTd.setAttribute("campo-dato", argCampo);
+    objTd.innerHTML = argValor;
+    return objTd;
+  }
+
+  function actualizaPie() {
+    const cantidad = document.getElementById("tbDatos").childNodes.length;
+    document.getElementById("tdCantidad").innerHTML = "Cantidad de comprobantes: " + cantidad;
+  }
+
+  /* Agrega una fila a la tabla a partir de un objeto nota de débito (viene del JSON o del formulario) */
+  function agregaFila(argNota) {
+    const objTr = document.createElement("tr");
+    objTr.appendChild(creaCelda("nroComprobante", argNota.nroComprobante));
+    objTr.appendChild(creaCelda("nroFacturaImputada", argNota.nroFacturaImputada));
+    objTr.appendChild(creaCelda("codigoTipo", argNota.codigoTipo));
+    objTr.appendChild(creaCelda("codCliente", argNota.codCliente));
+    objTr.appendChild(creaCelda("razonSocial", argNota.razonSocial));
+    objTr.appendChild(creaCelda("fechaComprobante", argNota.fechaComprobante));
+    objTr.appendChild(creaCelda("totalComprobante", argNota.totalComprobante));
+    document.getElementById("tbDatos").appendChild(objTr);
+  }
+
+  function abreModal() {
+    $("#contenedor").attr("class", "contenedorPasivo");
+    $("#ventanaModal").attr("class", "ventanaModal ventanaModalPrendido");
+  }
+
+  function cierraModal() {
+    $("#contenedor").attr("class", "contenedorActivo");
+    $("#ventanaModal").attr("class", "ventanaModal ventanaModalApagado");
+  }
+
+  $(document).ready(function() {
+
+    creaOpciones();
+
+    $("#btCargar").click(function() {
+      $("#tbDatos").empty();
+      const objJson = JSON.parse(textoNotasDebito);
+      objJson.notasDebito.forEach(function(argValor, argIndice) {
+        agregaFila(argValor);
+      });
+      actualizaPie();
+    });
+
+    $("#btVaciar").click(function() {
+      $("#tbDatos").empty();
+      actualizaPie();
+    });
+
+    $("#btCargaForm").click(function() {
+      abreModal();
+    });
+
+    $("#btCierraModal").click(function() {
+      cierraModal();
+    });
+
+    /* Alta: si el formulario es válido, se arma el objeto y se agrega como fila de la tabla */
+    $("#btEnviar").click(function() {
+      if (document.getElementById("formNota").checkValidity()) {
+        const objNota = {
+          nroComprobante: document.getElementById("nroComprobante").value,
+          nroFacturaImputada: document.getElementById("nroFacturaImputada").value,
+          codigoTipo: document.getElementById("tipoComprobante").value,
+          codCliente: document.getElementById("codCliente").value,
+          razonSocial: document.getElementById("razonSocial").value,
+          fechaComprobante: document.getElementById("fechaComprobante").value,
+          totalComprobante: document.getElementById("totalComprobante").value
+        };
+        agregaFila(objNota);
+        actualizaPie();
+        document.getElementById("formNota").reset();
+        cierraModal();
+      }
+      else {
+        alert("Complete todos los datos correctamente antes de enviar.");
+      }
+    });
+
+  });
+
+</script>
+</head>
+<body>
+
+  <!-- Contenedor principal con la tabla: se desactiva mientras la ventana modal está abierta -->
+  <div id="contenedor" class="contenedorActivo">
+
+    <div class="barra">
+      <h2>Notas de débito de ventas</h2>
+      <div class="botones">
+        <button type="button" id="btCargar">Cargar datos</button>
+        <button type="button" id="btVaciar">Vaciar datos</button>
+        <button type="button" id="btCargaForm">Cargar Form</button>
+      </div>
+    </div>
+
+    <div class="tablaScroll">
+      <table>
+        <thead>
+          <tr>
+            <th>NroComprobante</th>
+            <th>NroDeFacturaImputada</th>
+            <th>TipoComprobante</th>
+            <th>CodCliente</th>
+            <th>RazonSocial</th>
+            <th>fechaComprobante</th>
+            <th>TotalComprobante</th>
+          </tr>
+        </thead>
+        <tbody id="tbDatos"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7" id="tdCantidad">Cantidad de comprobantes: 0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="pie">Pie</div>
+
+    <p style="margin:20px;"><a href="../index.html">Volver al índice de Especiales</a></p>
+
+  </div>
+
+  <!-- Ventana modal con el formulario de alta -->
+  <div id="ventanaModal" class="ventanaModal ventanaModalApagado">
+
+    <div class="encabezadoModal">
+      <span>Encabezado modal</span>
+      <button type="button" id="btCierraModal">X</button>
+    </div>
+
+    <div class="franja">Formulario para ALTA<br>Encabezados de notas de débito de ventas</div>
+
+    <form id="formNota" class="formulario">
+      <div class="grilla">
+        <div class="campo">
+          <label for="nroComprobante">NroComprobante:</label>
+          <input type="text" id="nroComprobante" required>
+        </div>
+        <div class="campo">
+          <label for="tipoComprobante">TipoComprobante:</label>
+          <select id="tipoComprobante" name="tipoComprobante" required></select>
+        </div>
+        <div class="campo">
+          <label for="nroFacturaImputada">NroDeFacturaImputada:</label>
+          <input type="text" id="nroFacturaImputada" required>
+        </div>
+        <div class="campo">
+          <label for="fechaComprobante">fechaComprobante:</label>
+          <input type="date" id="fechaComprobante" required>
+        </div>
+        <div class="campo">
+          <label for="codCliente">CodCliente:</label>
+          <input type="text" id="codCliente" required>
+        </div>
+        <div class="campo">
+          <label for="totalComprobante">TotalComprobante:</label>
+          <input type="number" id="totalComprobante" min="0" value="0" required>
+        </div>
+        <div class="campo">
+          <label for="razonSocial">RazonSocial:</label>
+          <input type="text" id="razonSocial" required>
+        </div>
+        <div class="campo">
+          <button type="button" id="btEnviar">ENVIAR</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="pie">Pie del formulario</div>
+
+  </div>
+
+</body>
+</html>

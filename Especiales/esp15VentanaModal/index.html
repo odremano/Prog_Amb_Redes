@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ESP15 - Ventana modal</title>
+<link rel="stylesheet" href="../estilo.css">
+<script src="../jquery.js"></script>
+<script src="../datosNotasDebito.js"></script>
+<script>
+
+  function creaOpciones() {
+    const objJson = JSON.parse(textoTiposComprobante);
+
+    objJson.tiposComprobante.forEach(function(argValor, argIndice) {
+      const objOpcion = document.createElement("option");
+      objOpcion.setAttribute("value", argValor.codigoTipo);
+      objOpcion.innerHTML = argValor.descripcionTipo;
+      document.getElementById("tipoComprobante").appendChild(objOpcion);
+    });
+  }
+
+  /* El contenedor principal queda transparente y sin eventos, y la ventana modal se hace visible */
+  function abreModal() {
+    $("#contenedor").attr("class", "contenedorPasivo");
+    $("#ventanaModal").attr("class", "ventanaModal ventanaModalPrendido");
+  }
+
+  /* Se vuelve al estado inicial: contenedor activo y ventana modal oculta */
+  function cierraModal() {
+    $("#contenedor").attr("class", "contenedorActivo");
+    $("#ventanaModal").attr("class", "ventanaModal ventanaModalApagado");
+  }
+
+  $(document).ready(function() {
+
+    creaOpciones();
+
+    $("#btAbreModal").click(function() {
+      abreModal();
+    });
+
+    $("#btCierraModal").click(function() {
+      cierraModal();
+    });
+
+    $("#btEnviar").click(function() {
+      if (document.getElementById("formNota").checkValidity()) {
+        alert("Nota de débito " + document.getElementById("nroComprobante").value + " cargada correctamente.");
+        document.getElementById("formNota").reset();
+        cierraModal();
+      }
+      else {
+        alert("Complete todos los datos correctamente antes de enviar.");
+      }
+    });
+
+  });
+
+</script>
+</head>
+<body>
+
+  <!-- Contenedor principal: se desactiva mientras la ventana modal está abierta -->
+  <div id="contenedor" class="contenedorActivo" style="padding:20px;">
+    <h2>Esto es el div contenedor</h2>
+    <button type="button" id="btAbreModal">Abre DIV modal</button>
+    <p>Al abrir la ventana modal, este contenedor se pone transparente y deja de responder a los eventos.</p>
+    <p><a href="../index.html">Volver al índice de Especiales</a></p>
+  </div>
+
+  <!-- La ventana modal es hermana del contenedor (no está adentro) para que no herede pointer-events:none -->
+  <div id="ventanaModal" class="ventanaModal ventanaModalApagado">
+
+    <div class="encabezadoModal">
+      <span>Encabezado modal</span>
+      <button type="button" id="btCierraModal">X</button>
+    </div>
+
+    <div class="franja">Formulario para ALTA<br>Encabezados de notas de débito de ventas</div>
+
+    <form id="formNota" class="formulario">
+      <div class="grilla">
+        <div class="campo">
+          <label for="nroComprobante">NroComprobante:</label>
+          <input type="text" id="nroComprobante" required>
+        </div>
+        <div class="campo">
+          <label for="tipoComprobante">TipoComprobante:</label>
+          <select id="tipoComprobante" name="tipoComprobante" required></select>
+        </div>
+        <div class="campo">
+          <label for="nroFacturaImputada">NroDeFacturaImputada:</label>
+          <input type="text" id="nroFacturaImputada" required>
+        </div>
+        <div class="campo">
+          <label for="fechaComprobante">fechaComprobante:</label>
+          <input type="date" id="fechaComprobante" required>
+        </div>
+        <div class="campo">
+          <label for="codCliente">CodCliente:</label>
+          <input type="text" id="codCliente" required>
+        </div>
+        <div class="campo">
+          <label for="totalComprobante">TotalComprobante:</label>
+          <input type="number" id="totalComprobante" min="0" value="0" required>
+        </div>
+        <div class="campo">
+          <label for="razonSocial">RazonSocial:</label>
+          <input type="text" id="razonSocial" required>
+        </div>
+        <div class="campo">
+          <button type="button" id="btEnviar">ENVIAR</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="pie">Pie del formulario</div>
+
+  </div>
+
+</body>
+</html>

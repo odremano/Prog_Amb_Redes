@@ -1,0 +1,189 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #eef2f7;
+  color: #1e2a38;
+}
+
+/* ---------- Franjas de encabezado y pie ---------- */
+.franja {
+  background-color: #2f4b6e;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  font-weight: bold;
+}
+
+/* ---------- Formulario en grilla de dos columnas ---------- */
+.formulario {
+  padding: 20px;
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 30px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.campo input,
+.campo select {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #9aa9bb;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: #d5dde8;
+  border: 1px solid #8796aa;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #c3cfde;
+}
+
+.campo button {
+  align-self: end;
+  width: 60%;
+}
+
+.resultado {
+  padding: 0 20px 20px 20px;
+}
+
+@media (max-width: 700px) {
+  .grilla {
+    grid-template-columns: 1fr;
+  }
+  .campo button {
+    width: 100%;
+  }
+}
+
+/* ---------- Tabla de datos ---------- */
+.barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 20px;
+}
+
+.barra h2 {
+  margin: 0;
+}
+
+.botones {
+  display: flex;
+  gap: 10px;
+}
+
+.tablaScroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #2f4b6e;
+  color: white;
+  font-variant: small-caps;
+}
+
+thead th,
+tbody td,
+tfoot td {
+  padding: 10px;
+  text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #dbe3ee;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #c8d4e4;
+}
+
+tfoot {
+  background-color: #2f4b6e;
+  color: white;
+}
+
+/* ---------- Ventana modal y contenedor principal ---------- */
+div.contenedorActivo {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+div.contenedorPasivo {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+div.ventanaModalApagado {
+  visibility: hidden;
+}
+
+div.ventanaModalPrendido {
+  visibility: visible;
+}
+
+.ventanaModal {
+  position: fixed;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 900px;
+  max-height: 88%;
+  overflow-y: auto;
+  background-color: #eef2f7;
+  border: 1px solid #2f4b6e;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.encabezadoModal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b9c5d6;
+  padding: 8px 14px;
+  font-weight: bold;
+}
+
+.encabezadoModal button {
+  padding: 4px 12px;
+  color: #b3202a;
+  font-weight: bold;
+}
+
+.pie {
+  background-color: #2f4b6e;
+  color: white;
+  text-align: center;
+  padding: 12px;
+}
