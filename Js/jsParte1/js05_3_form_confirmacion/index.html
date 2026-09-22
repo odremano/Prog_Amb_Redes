@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS13 - Confirmación de envío y de reset</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 13: confirmación de envío y de reset</h1>
+
+  <form id="formDatos" method="get" action="respuestaFormulario.html" onsubmit="return confirm('¿Está seguro de enviar?')">
+    <p>Nombre: <input type="text" name="nombre" id="nombre"></p>
+    <p>Apellido: <input type="text" name="apellido" id="apellido"></p>
+    <button type="reset">Blanquear</button>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

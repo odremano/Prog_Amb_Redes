@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS09 - Funciones compartidas</title>
+<style>
+  button { width: 45px; height: 30px; }
+</style>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 9: funciones compartidas</h1>
+
+  <p><input type="text" id="display" readonly></p>
+
+  <div>
+    <button onclick="agregarDigito(1)">1</button>
+    <button onclick="agregarDigito(2)">2</button>
+    <button onclick="agregarDigito(3)">3</button><br>
+    <button onclick="agregarDigito(4)">4</button>
+    <button onclick="agregarDigito(5)">5</button>
+    <button onclick="agregarDigito(6)">6</button><br>
+    <button onclick="agregarDigito(7)">7</button>
+    <button onclick="agregarDigito(8)">8</button>
+    <button onclick="agregarDigito(9)">9</button><br>
+    <button onclick="agregarDigito(0)">0</button>
+  </div>
+
+  <p>
+    <button onclick="sumarAlAcumulador()">+Acumulador</button>
+    <button onclick="muestraAcumulador()">Muestra Acumulador</button>
+    <button onclick="borraAcumulador()">Borra Acumulador</button>
+    <button onclick="borraDisplay()">Borra display</button>
+  </p>
+
+  <script>
+    let acumulador = 0;
+
+    /* Una sola función, compartida por los diez botones numéricos: cada uno le pasa su propio dígito */
+    function agregarDigito(argDigito) {
+      let objDisplay = document.getElementById("display");
+      objDisplay.value = objDisplay.value + argDigito;
+    }
+
+    function sumarAlAcumulador() {
+      let objDisplay = document.getElementById("display");
+      acumulador = acumulador + parseFloat(objDisplay.value);
+      objDisplay.value = "";
+    }
+
+    function muestraAcumulador() {
+      alert("Acumulador: " + acumulador);
+    }
+
+    function borraAcumulador() {
+      acumulador = 0;
+    }
+
+    function borraDisplay() {
+      document.getElementById("display").value = "";
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

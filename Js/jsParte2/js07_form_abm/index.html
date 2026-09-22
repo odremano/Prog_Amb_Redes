@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS17 - Formulario ABM</title>
+<style>
+  .abm { background-color: #cceeee; padding: 12px; max-width: 400px; }
+</style>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <div class="abm">
+    <h1>FORMULARIO ABM</h1>
+    <p>Apellido: <input type="text" id="apellido"></p>
+    <p>Nombres: <input type="text" id="nombres"></p>
+    <p>Saldo: <input type="text" id="saldo"></p>
+    <button onclick="blanquear()">Blanquear</button>
+    <button onclick="alta()">Alta</button>
+    <button onclick="modificar()">Modi</button>
+    <button onclick="baja()">Baja</button>
+  </div>
+
+  <div id="listado"></div>
+
+  <script>
+    /* apellido se usa como clave para buscar la persona a modificar o dar de baja */
+    let arregloPersonas = [];
+
+    function blanquear() {
+      document.getElementById("apellido").value = "";
+      document.getElementById("nombres").value = "";
+      document.getElementById("saldo").value = "";
+    }
+
+    function buscarIndice(argApellido) {
+      let indiceEncontrado = -1;
+      arregloPersonas.forEach(function(item, indice) {
+        if (item.apellido === argApellido) {
+          indiceEncontrado = indice;
+        }
+      });
+      return indiceEncontrado;
+    }
+
+    function alta() {
+      const apellido = document.getElementById("apellido").value;
+      const nombres = document.getElementById("nombres").value;
+      const saldo = document.getElementById("saldo").value;
+
+      if (apellido === "" || nombres === "") {
+        alert("Complete apellido y nombres antes de dar de alta.");
+        return;
+      }
+      if (buscarIndice(apellido) !== -1) {
+        alert("Ya existe una persona con ese apellido.");
+        return;
+      }
+      arregloPersonas.push({ apellido: apellido, nombres: nombres, saldo: saldo });
+      blanquear();
+      listar();
+    }
+
+    function modificar() {
+      const apellido = document.getElementById("apellido").value;
+      const indice = buscarIndice(apellido);
+      if (indice === -1) {
+        alert("No existe una persona con ese apellido.");
+        return;
+      }
+      arregloPersonas[indice].nombres = document.getElementById("nombres").value;
+      arregloPersonas[indice].saldo = document.getElementById("saldo").value;
+      blanquear();
+      listar();
+    }
+
+    function baja() {
+      const apellido = document.getElementById("apellido").value;
+      const indice = buscarIndice(apellido);
+      if (indice === -1) {
+        alert("No existe una persona con ese apellido.");
+        return;
+      }
+      arregloPersonas.splice(indice, 1);
+      blanquear();
+      listar();
+    }
+
+    function listar() {
+      let texto = "<h3>Personas cargadas: " + arregloPersonas.length + "</h3>";
+      arregloPersonas.forEach(function(item, indice) {
+        texto = texto + "<p>" + item.apellido + ", " + item.nombres + " - Saldo: " + item.saldo + "</p>";
+      });
+      document.getElementById("listado").innerHTML = texto;
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

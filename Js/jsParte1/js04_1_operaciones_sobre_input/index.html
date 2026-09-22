@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS07 - Operaciones sobre input</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 7: operaciones sobre un input</h1>
+  <p>Introducir un valor en el cuadro de texto y luego pulsar el botón para ejecutar el procedimiento correspondiente</p>
+
+  <input type="text" id="valor">
+  <button onclick="muestraValor()">Muestra valor</button>
+  <button onclick="suma1()">Suma 1</button>
+  <button onclick="elevarAlCuadrado()">x**2</button>
+  <button onclick="multiplicaPor2()">Multiplica * 2</button>
+  <button onclick="dosALaX()">2**x</button>
+
+  <script>
+    /* Cada botón lee el valor actual del input, calcula, y escribe el resultado de nuevo en el input:
+       así se pueden encadenar operaciones sobre el mismo valor */
+
+    function muestraValor() {
+      let x = parseFloat(document.getElementById("valor").value);
+      document.getElementById("valor").value = x;
+    }
+
+    function suma1() {
+      let x = parseFloat(document.getElementById("valor").value);
+      document.getElementById("valor").value = x + 1;
+    }
+
+    function elevarAlCuadrado() {
+      let x = parseFloat(document.getElementById("valor").value);
+      document.getElementById("valor").value = x ** 2;
+    }
+
+    function multiplicaPor2() {
+      let x = parseFloat(document.getElementById("valor").value);
+      document.getElementById("valor").value = x * 2;
+    }
+
+    function dosALaX() {
+      let x = parseFloat(document.getElementById("valor").value);
+      document.getElementById("valor").value = 2 ** x;
+    }
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

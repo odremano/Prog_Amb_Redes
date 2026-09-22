@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS10 - Convertir a mayúsculas</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 10: convertir a mayúsculas</h1>
+
+  <p>Ingrese nombre: <input type="text" id="nombre"></p>
+  <p>Ingrese el apellido: <input type="text" id="apellido"></p>
+
+  <script>
+    document.getElementById("nombre").addEventListener("focusout", function() {
+      this.value = this.value.toUpperCase();
+    });
+
+    document.getElementById("apellido").addEventListener("focusout", function() {
+      this.value = this.value.toUpperCase();
+    });
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JS06 - Arreglos</title>
+</head>
+<body style="font-family:Arial, sans-serif; margin:20px;">
+
+  <h1>Ejercicio 6: array de índice numérico</h1>
+
+  <script>
+    let arregloColores = [];
+    arregloColores = ["rojo", "azul"];
+    arregloColores.push(prompt("El arregloColores ya tiene dos elementos asignados por programa (rojo y azul), agregue el tercer elemento con índice numérico"));
+
+    document.write("<p>Tipo para arregloColores: " + typeof arregloColores + "</p>");
+    document.write("<p>Primer elemento cargado desde programa: " + arregloColores[0] + "</p>");
+    document.write("<p>Segundo elemento cargado desde programa: " + arregloColores[1] + "</p>");
+    document.write("<p>Tercer elemento cargado desde teclado: " + arregloColores[2] + "</p>");
+    document.write("<p>Cantidad de elementos: " + arregloColores.length + "</p>");
+  </script>
+
+  <p><a href="../../index.html">Volver al índice de Js</a></p>
+
+</body>
+</html>
