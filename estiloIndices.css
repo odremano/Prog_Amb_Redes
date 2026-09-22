@@ -1,0 +1,87 @@
+/* Estilo simple y compartido para las páginas de índice (raíz, Html, Js, Especiales).
+   Css/index.html queda afuera a propósito: esa página ya es en sí misma el ejercicio
+   de tamaño de fuente relativo (32px = 1em) y no debe llevar otro estilo encima. */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f2f4f6;
+  color: #23303d;
+  line-height: 1.5;
+}
+
+header {
+  background-color: #2f5d62;
+  color: white;
+  padding: 24px 20px;
+}
+
+header h1 {
+  margin: 0 0 6px 0;
+  font-size: 1.6em;
+}
+
+header h2 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: normal;
+  color: #d7e6e4;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+main h2 {
+  color: #2f5d62;
+  border-bottom: 2px solid #d8e2e0;
+  padding-bottom: 6px;
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+  background-color: white;
+  border: 1px solid #dde3e6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+li {
+  border-bottom: 1px solid #eceff1;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li a {
+  display: block;
+  padding: 12px 16px;
+  color: #23303d;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #eef5f4;
+  color: #2f5d62;
+}
+
+main p {
+  color: #55636e;
+}
+
+.volver {
+  display: inline-block;
+  margin-top: 10px;
+  color: #2f5d62;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}
