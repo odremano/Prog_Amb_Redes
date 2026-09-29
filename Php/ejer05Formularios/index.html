@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lectura de formularios</title>
+</head>
+<body>
+
+  <h1>Lectura de formularios</h1>
+
+  <p>Ejercicio sin estilos a propósito. El mismo formulario se envía por GET (a respuestaGet.php, que lee $_GET) y por POST (a respuestaPost.php, que lee $_POST).</p>
+
+  <h2>Envío por GET</h2>
+  <form action="./respuestaGet.php" method="get">
+    <p>
+      <label for="nroComprobanteGet">Nro. de comprobante:</label><br>
+      <input type="text" id="nroComprobanteGet" name="nroComprobante">
+    </p>
+    <p>
+      <label for="razonSocialGet">Razón social:</label><br>
+      <input type="text" id="razonSocialGet" name="razonSocial">
+    </p>
+    <input type="submit" value="Enviar por GET">
+  </form>
+
+  <h2>Envío por POST</h2>
+  <form action="./respuestaPost.php" method="post">
+    <p>
+      <label for="nroComprobantePost">Nro. de comprobante:</label><br>
+      <input type="text" id="nroComprobantePost" name="nroComprobante">
+    </p>
+    <p>
+      <label for="razonSocialPost">Razón social:</label><br>
+      <input type="text" id="razonSocialPost" name="razonSocial">
+    </p>
+    <input type="submit" value="Enviar por POST">
+  </form>
+
+  <p><a href="../index.html">&larr; Volver al índice de PHP</a></p>
+
+</body>
+</html>
