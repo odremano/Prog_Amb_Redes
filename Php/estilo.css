@@ -1,0 +1,88 @@
+/* Estilo compartido por los ejercicios 1 a 4 de PHP (el ejercicio 5 va sin estilo a propósito).
+   Nunca hay scroll horizontal: los textos largos se cortan y las tablas se ajustan al ancho. */
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #23303d;
+  background-color: #ffffff;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  color: #2f5d62;
+}
+
+h2 {
+  margin-top: 28px;
+  color: #2f5d62;
+  border-bottom: 2px solid #d8e2e0;
+  padding-bottom: 4px;
+}
+
+.aclaracion {
+  background-color: #eef5f4;
+  border-left: 4px solid #2f5d62;
+  padding: 10px 14px;
+  margin: 16px 0;
+}
+
+.consigna {
+  background-color: #dbeaf3;
+  border: 1px solid #9fc3d9;
+  padding: 8px 12px;
+  margin: 16px 0;
+  font-weight: bold;
+}
+
+.nombre {
+  color: #1a3fb5;
+  font-weight: bold;
+}
+
+.valor {
+  color: #000000;
+}
+
+table {
+  border-collapse: collapse;
+  max-width: 100%;
+  margin: 10px 0;
+}
+
+th, td {
+  border: 1px solid #9fb3b0;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #dbeaf3;
+}
+
+table.clave-valor td:first-child {
+  background-color: #f3f0d9;
+  font-weight: bold;
+}
+
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background-color: #f2f4f6;
+  border: 1px solid #dde3e6;
+  padding: 10px;
+}
+
+.volver {
+  display: inline-block;
+  margin-top: 24px;
+  color: #2f5d62;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}
