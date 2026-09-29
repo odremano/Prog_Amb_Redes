@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>ESP15 - Ventana modal</title>
 <link rel="stylesheet" href="../estilo.css">
-<script src="../jquery.js"></script>
 <script src="../datosNotasDebito.js"></script>
 <script>
 
@@ -19,34 +18,35 @@
     });
   }
 
-  /* El contenedor principal queda transparente y sin eventos, y la ventana modal se hace visible */
+  /* El contenedor principal queda transparente y sin eventos, y la ventana modal se hace visible.
+     className se usa para asignar la clase desde JavaScript (a diferencia de class en el HTML). */
   function abreModal() {
-    $("#contenedor").attr("class", "contenedorPasivo");
-    $("#ventanaModal").attr("class", "ventanaModal ventanaModalPrendido");
+    document.getElementById("contenedor").className = "contenedorPasivo";
+    document.getElementById("ventanaModal").className = "ventanaModal ventanaModalPrendido";
   }
 
   /* Se vuelve al estado inicial: contenedor activo y ventana modal oculta */
   function cierraModal() {
-    $("#contenedor").attr("class", "contenedorActivo");
-    $("#ventanaModal").attr("class", "ventanaModal ventanaModalApagado");
+    document.getElementById("contenedor").className = "contenedorActivo";
+    document.getElementById("ventanaModal").className = "ventanaModal ventanaModalApagado";
   }
 
   /* Avisa el ancho de la ventana apenas se entra al ejercicio, antes de poder interactuar */
   alert("Ancho de ventana: " + window.innerWidth);
 
-  $(document).ready(function() {
+  window.addEventListener("load", function() {
 
     creaOpciones();
 
-    $("#btAbreModal").click(function() {
+    document.getElementById("btAbreModal").addEventListener("click", function() {
       abreModal();
     });
 
-    $("#btCierraModal").click(function() {
+    document.getElementById("btCierraModal").addEventListener("click", function() {
       cierraModal();
     });
 
-    $("#btEnviar").click(function() {
+    document.getElementById("btEnviar").addEventListener("click", function() {
       if (document.getElementById("formNota").checkValidity()) {
         alert("Nota de débito " + document.getElementById("nroComprobante").value + " cargada correctamente.");
         document.getElementById("formNota").reset();
