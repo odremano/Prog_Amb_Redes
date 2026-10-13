@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ajax con API fetch</title>
+<link rel="stylesheet" href="./estilo.css">
+</head>
+<body>
+
+  <h1>Ajax con API fetch</h1>
+
+  <p class="aclaracion">Es el mismo ejercicio de encriptación del anterior, pero ahora el requerimiento HTTP es asincrónico: el formulario no se envía de la forma tradicional, sino que el botón dispara un fetch() y el documento nunca se recarga. El servidor demora 3 segundos a propósito (sleep) para poder ver el estado del requerimiento mientras la promesa está pendiente. Cuando la promesa se cumple, la respuesta se ubica en el panel de resultado.</p>
+
+  <div class="panel">
+    <h2>Dato de entrada</h2>
+    <label for="clave">Clave a encriptar:</label>
+    <input type="text" id="clave" value="mi dato">
+    <button type="button" id="disparo" title="Esperar 3 segundos de retardo para la respuesta">Encriptar por AJAX</button>
+  </div>
+
+  <div class="panel">
+    <h2>Estado del requerimiento</h2>
+    <div id="estado">Todavía no se disparó el requerimiento.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Resultado</h2>
+    <div id="resultado"></div>
+  </div>
+
+  <p><a class="volver" href="../index.html">&larr; Volver al índice de PHP</a></p>
+
+  <script>
+    const objClave = document.getElementById("clave");
+    const objEstado = document.getElementById("estado");
+    const objResultado = document.getElementById("resultado");
+
+    document.getElementById("disparo").addEventListener("click", function () {
+
+      /* Objeto con la cadena de datos a enviar: clave=valor&otra=valor... */
+      const data = new URLSearchParams();
+      data.append("clave", objClave.value);
+
+      alert("Se usará el método POST en el requerimiento HTTP. Los datos viajan en el body con el formato clásico del URL (variable=valor):\n" + data.toString());
+
+      /* Configuración de la estructura del requerimiento HTTP */
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: data
+      };
+
+      /* Se limpian las zonas de recepción y se muestra el estado provisorio de espera */
+      objEstado.className = "esperando";
+      objEstado.innerHTML = "Esperando respuesta...";
+      objResultado.innerHTML = "Esperando respuesta...";
+
+      fetch("./respuesta.php", options)
+        .then(respuesta => {
+          return respuesta.text();
+        })
+        .then(textoDeRespuesta => {
+          /* Evento de llegada de la respuesta: la promesa está cumplida */
+          alert("Llegó la respuesta del servidor:\n" + textoDeRespuesta);
+          objEstado.className = "cumplido";
+          objEstado.innerHTML = "CUMPLIDO";
+          objResultado.innerHTML = textoDeRespuesta;
+        })
+        .catch(error => {
+          /* Error de red: no se pudo establecer la conexión */
+          objEstado.className = "fallido";
+          objEstado.innerHTML = "ERROR de red: " + error;
+          objResultado.innerHTML = "";
+          alert("Error producido: " + error);
+        });
+    });
+  </script>
+
+</body>
+</html>
