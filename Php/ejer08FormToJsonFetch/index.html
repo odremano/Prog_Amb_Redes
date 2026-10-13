@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form to json con API fetch</title>
+</head>
+<body>
+
+  <h1>Form to json con API fetch</h1>
+
+  <p>Ejercicio sin estilos a propósito. Un mismo formulario se puede enviar de dos maneras: con el botón tradicional, la respuesta (solo un JSON) reemplaza al documento; con el botón AJAX, el requerimiento es asincrónico y la respuesta llega a un alert sin recargar la página. El servidor demora 3 segundos a propósito.</p>
+
+  <form id="formulario" method="post" action="./respuesta.php">
+    <p>
+      <label for="nroComprobante">Nro. de comprobante:</label><br>
+      <input type="text" id="nroComprobante" name="nroComprobante" value="ND-0001">
+    </p>
+    <p>
+      <label for="codCliente">Código de cliente:</label><br>
+      <input type="text" id="codCliente" name="codCliente" value="CLI001">
+    </p>
+    <p>
+      <label for="razonSocial">Razón social:</label><br>
+      <input type="text" id="razonSocial" name="razonSocial" value="Distribuidora Norte S.A.">
+    </p>
+    <p>
+      <label for="totalComprobante">Total del comprobante:</label><br>
+      <input type="text" id="totalComprobante" name="totalComprobante" value="12500">
+    </p>
+
+    <input type="submit" value="Enviar el formulario de manera tradicional">
+    <button type="button" id="disparo" title="Esperar 3 segundos de retardo para la respuesta">Disparar requerimiento asincrónico AJAX</button>
+  </form>
+
+  <p><a href="../index.html">&larr; Volver al índice de PHP</a></p>
+
+  <script>
+    document.getElementById("disparo").addEventListener("click", function () {
+
+      const objFormulario = document.getElementById("formulario");
+
+      /* Objeto con todos los datos del formulario, listo para enviar como si fuera un form HTML */
+      const objDatosFormulario = new FormData(objFormulario);
+
+      console.log("valor del input nroComprobante: " + objDatosFormulario.get("nroComprobante"));
+
+      /* Opciones de configuración del fetch */
+      const options = {
+        method: "post",
+        headers: { },
+        body: objDatosFormulario
+      };
+
+      fetch("./respuesta.php", options)
+        .then(respuesta => {
+          return respuesta.text();
+        })
+        .then(textoDeRespuesta => {
+          /* Evento de llegada de la respuesta HTTP */
+          alert(textoDeRespuesta);
+        })
+        .catch(error => {
+          alert("Error producido: " + error);
+        });
+    });
+  </script>
+
+</body>
+</html>

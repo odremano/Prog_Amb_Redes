@@ -1,0 +1,85 @@
+/* Estilo propio de este ejercicio. Sin scroll horizontal: todo se ajusta al ancho de la pantalla. */
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #23303d;
+  background-color: #f2f4f6;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  color: #2f5d62;
+}
+
+.aclaracion {
+  background-color: #eef5f4;
+  border-left: 4px solid #2f5d62;
+  padding: 10px 14px;
+  margin: 16px 0;
+}
+
+.panel {
+  background-color: #ffffff;
+  border: 1px solid #dde3e6;
+  border-radius: 6px;
+  padding: 14px;
+  margin: 14px 0;
+}
+
+.panel h2 {
+  margin: 0 0 8px 0;
+  font-size: 1em;
+  color: #2f5d62;
+}
+
+input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 1em;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 18px;
+  font-size: 1em;
+  color: white;
+  background-color: #2f5d62;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #244a4e;
+}
+
+/* Estados del requerimiento: el color cambia según el estado de la promesa */
+#estado.esperando {
+  color: #b26a00;
+  font-weight: bold;
+}
+
+#estado.cumplido {
+  color: #1b7a3a;
+  font-weight: bold;
+}
+
+#estado.fallido {
+  color: #b3261e;
+  font-weight: bold;
+}
+
+.volver {
+  display: inline-block;
+  margin-top: 10px;
+  color: #2f5d62;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}
