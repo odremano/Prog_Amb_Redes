@@ -16,7 +16,7 @@ if (isset($_POST['clave'])) {
   /* Llegó el envío del formulario completado */
   $clave = $_POST['clave'];
   $claveMd5 = md5($clave);
-  $claveSha1 = sha1($clave);
+  $claveSha256 = hash('sha256', $clave);
 ?>
 
   <h2>Resultado</h2>
@@ -25,8 +25,8 @@ if (isset($_POST['clave'])) {
   <p>Clave encriptada en md5 (128 bits = 16 pares hexadecimales):</p>
   <p><?php echo $claveMd5; ?></p>
 
-  <p>Clave encriptada en sha1 (160 bits = 20 pares hexadecimales):</p>
-  <p><?php echo $claveSha1; ?></p>
+  <p>Clave encriptada en sha256 (256 bits = 32 pares hexadecimales):</p>
+  <p><?php echo $claveSha256; ?></p>
 
   <p><a href="./index.php">&larr; Encriptar otra clave</a></p>
 
