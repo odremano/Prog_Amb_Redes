@@ -5,3 +5,9 @@
 *.pdf
 *.png
 *.md
+# Scripts de la base de datos (se importan desde phpMyAdmin, no se publican)
+BaseDeDatos
+*.sql
+
+# Credenciales reales: nunca dentro de la imagen (en producción se montan desde Dokploy)
+**/datosConexionBase.php

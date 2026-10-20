@@ -1,0 +1,197 @@
+/* Estilo de este ejercicio: el mismo tablero de los ejercicios especiales, más la fila de filtros.
+   Nunca hay scroll horizontal; el encabezado y el pie quedan fijos y solo scrollean los datos. */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #eef2f7;
+  color: #1e2a38;
+}
+
+button {
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: #d5dde8;
+  border: 1px solid #8796aa;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #c3cfde;
+}
+
+/* ---------- Tabla de datos ---------- */
+/* Layout de altura completa: la barra y el pie quedan fijos, y solo
+   .tablaScroll (los datos) tiene scroll propio. Nunca debe aparecer
+   scroll horizontal: por eso la tabla usa table-layout fijo y el
+   texto se ajusta en vez de desbordar. */
+.paginaTabla {
+  display: flex;
+  flex-direction: column;
+  height: 88vh;
+  overflow: hidden;
+}
+
+.barra {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 20px;
+}
+
+.barra h2 {
+  margin: 0;
+}
+
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tablaScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+thead th,
+tbody td,
+tfoot td {
+  padding: 10px;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #2f4b6e;
+  color: white;
+  font-variant: small-caps;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #dbe3ee;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #c8d4e4;
+}
+
+tfoot td {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background-color: #2f4b6e;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  thead th, tbody td, tfoot td {
+    font-size: 12px;
+    padding: 6px 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  thead th, tbody td, tfoot td {
+    font-size: 10px;
+    padding: 4px 2px;
+  }
+}
+
+.pie {
+  background-color: #2f4b6e;
+  color: white;
+  text-align: center;
+  padding: 12px;
+}
+
+/* ---------- Específico de este ejercicio: orden y filtros ---------- */
+.barra .orden {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+}
+
+.barra .orden input {
+  width: 150px;
+  max-width: 40vw;
+  padding: 6px;
+  border: 1px solid #9aa9bb;
+  border-radius: 4px;
+  background-color: #f4f6fa;
+}
+
+/* Las dos filas del encabezado (títulos y filtros) quedan fijas juntas */
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+thead th {
+  position: static;
+}
+
+/* Los títulos son sensibles al click: producen el ordenamiento */
+thead tr.titulos th {
+  cursor: pointer;
+}
+
+thead tr.titulos th:hover {
+  background-color: #3f6190;
+}
+
+thead tr.filtros th {
+  background-color: #5a779c;
+  padding: 4px;
+}
+
+thead tr.filtros input,
+thead tr.filtros select {
+  width: 100%;
+  min-width: 0;
+  padding: 4px;
+  font-size: 13px;
+  border: 1px solid #9aa9bb;
+  border-radius: 3px;
+}
+
+tbody td.mensaje {
+  text-align: center;
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  .barra .orden input {
+    width: 110px;
+  }
+  thead tr.filtros input,
+  thead tr.filtros select {
+    font-size: 9px;
+    padding: 2px;
+  }
+}

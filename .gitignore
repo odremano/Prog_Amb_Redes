@@ -4,3 +4,7 @@
 /JavaScriptParte1.mp4
 /jsParte2.mp4
 /especiales.mp4
+
+# Credenciales reales de la base de datos y log de errores (nunca al repo público)
+/Php/**/datosConexionBase.php
+/Php/**/errores.log
