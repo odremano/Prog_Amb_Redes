@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHP - Base de datos: lista, ordena y filtra</title>
+<link rel="stylesheet" href="./estilo.css">
+<script>
+
+  /* Crea una celda de la tabla: recibe el nombre del campo y el valor a mostrar */
+  function creaCelda(argCampo, argValor) {
+    const objTd = document.createElement("td");
+    objTd.setAttribute("campo-dato", argCampo);
+    objTd.textContent = argValor;
+    return objTd;
+  }
+
+  /* 1) Vaciar de objetos el tbody: se van sacando los hijos uno por uno con removeChild() */
+  function vaciarTabla() {
+    const objTbDatos = document.getElementById("tbDatos");
+    while (objTbDatos.childNodes.length > 0) {
+      objTbDatos.removeChild(objTbDatos.childNodes[0]);
+    }
+  }
+
+  /* 2) Inserta un mensaje en el tbody (por ejemplo "Esperando respuesta del servidor") */
+  function mensajeEnTabla(argTexto) {
+    const objTr = document.createElement("tr");
+    const objTd = document.createElement("td");
+    objTd.setAttribute("colspan", "7");
+    objTd.className = "mensaje";
+    objTd.textContent = argTexto;
+    objTr.appendChild(objTd);
+    document.getElementById("tbDatos").appendChild(objTr);
+  }
+
+  /* Muestra en el pie de la tabla el número total de registros recibidos */
+  function actualizaPie(argCantidad) {
+    document.getElementById("tdCantidad").innerHTML = "Cantidad de comprobantes: " + argCantidad;
+  }
+
+  /* Al llegar la lista de tipos de comprobante se puebla el desplegable del filtro */
+  function cargaTipos() {
+    fetch("./salidaJsonTiposComprobante.php")
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(textoDeRespuesta => {
+        alert("Llegó el JSON de los tipos de comprobante:\n" + textoDeRespuesta);
+        const objJson = JSON.parse(textoDeRespuesta);
+        const objSelect = document.getElementById("f_notasDebito_tipoComprobante");
+
+        /* El primer elemento queda vacío: es la opción "sin filtro" */
+        const objOpcionVacia = document.createElement("option");
+        objOpcionVacia.value = "";
+        objSelect.appendChild(objOpcionVacia);
+
+        objJson.tiposComprobante.forEach(function(argTipo) {
+          const objOpcion = document.createElement("option");
+          objOpcion.value = argTipo.id;
+          objOpcion.textContent = argTipo.id + " - " + argTipo.descripcion;
+          objSelect.appendChild(objOpcion);
+        });
+      })
+      .catch(error => {
+        alert("Error producido: " + error);
+      });
+  }
+
+  /* Función cargaTabla(): dispara el requerimiento Ajax con el orden y los filtros */
+  function cargaTabla() {
+    /* 1) y 2) */
+    vaciarTabla();
+    mensajeEnTabla("Esperando respuesta del servidor");
+
+    /* 3) Objeto de datos que viaja al servidor: orden y filtros */
+    const objDatosOrdenFiltros = new URLSearchParams();
+    objDatosOrdenFiltros.append("orden", document.getElementById("orden").value);
+    objDatosOrdenFiltros.append("f_notasDebito_nroComprobante", document.getElementById("f_notasDebito_nroComprobante").value);
+    objDatosOrdenFiltros.append("f_notasDebito_nroFacturaImputada", document.getElementById("f_notasDebito_nroFacturaImputada").value);
+    objDatosOrdenFiltros.append("f_notasDebito_tipoComprobante", document.getElementById("f_notasDebito_tipoComprobante").value);
+    objDatosOrdenFiltros.append("f_notasDebito_codCliente", document.getElementById("f_notasDebito_codCliente").value);
+    objDatosOrdenFiltros.append("f_notasDebito_razonSocial", document.getElementById("f_notasDebito_razonSocial").value);
+    objDatosOrdenFiltros.append("f_notasDebito_fechaComprobante", document.getElementById("f_notasDebito_fechaComprobante").value);
+
+    alert("Se está por disparar un requerimiento asincrónico. Los datos que viajan en el body (formato de URL):\n" + objDatosOrdenFiltros.toString());
+
+    /* 4) Disparo del Ajax y cadena de promesas */
+    fetch("./salidaJsonNotasDebito.php", {
+      method: "POST", // datos enviados en el body del requerimiento
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: objDatosOrdenFiltros
+    })
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(textoDeRespuesta => {
+        /* La promesa está cumplida: llegaron los datos */
+        alert("Llegó el JSON de las notas de débito:\n" + textoDeRespuesta);
+        const objJson = JSON.parse(textoDeRespuesta);
+
+        vaciarTabla();
+        objJson.notasDebito.forEach(function(argValor) {
+          const objTr = document.createElement("tr");
+          objTr.appendChild(creaCelda("nroComprobante", argValor.nroComprobante));
+          objTr.appendChild(creaCelda("nroFacturaImputada", argValor.nroFacturaImputada));
+          objTr.appendChild(creaCelda("tipoComprobante", argValor.tipoComprobante));
+          objTr.appendChild(creaCelda("codCliente", argValor.codCliente));
+          objTr.appendChild(creaCelda("razonSocial", argValor.razonSocial));
+          objTr.appendChild(creaCelda("fechaComprobante", argValor.fechaComprobante));
+          objTr.appendChild(creaCelda("totalComprobante", argValor.totalComprobante));
+          document.getElementById("tbDatos").appendChild(objTr);
+        });
+        actualizaPie(objJson.cuenta);
+
+        if (objJson.cuenta == 0) {
+          mensajeEnTabla("No se encontraron comprobantes. Estado: " + objJson.estado);
+        }
+      })
+      .catch(error => {
+        vaciarTabla();
+        mensajeEnTabla("No se pudo obtener la respuesta del servidor");
+        alert("Error producido: " + error);
+      });
+  }
+
+  window.addEventListener("load", function() {
+
+    /* Lo primero que llega, al cargar la página, es el JSON de los tipos de comprobante */
+    cargaTipos();
+
+    document.getElementById("btCargar").addEventListener("click", function() {
+      cargaTabla();
+    });
+
+    document.getElementById("btVaciar").addEventListener("click", function() {
+      vaciarTabla();
+      actualizaPie(0);
+    });
+
+    /* Un click en el título de una columna carga el input "orden" con el nombre del campo
+       y llama a cargaTabla() */
+    const aTitulos = document.querySelectorAll("thead tr.titulos th");
+    aTitulos.forEach(function(objTh) {
+      objTh.addEventListener("click", function() {
+        document.getElementById("orden").value = objTh.getAttribute("campo-orden");
+        cargaTabla();
+      });
+    });
+
+  });
+
+</script>
+</head>
+<body>
+
+  <div class="paginaTabla">
+
+    <div class="barra">
+      <h2>Notas de débito de ventas</h2>
+      <div class="orden">
+        <label for="orden">Orden:</label>
+        <input type="text" id="orden" value="nroComprobante" readonly>
+      </div>
+      <div class="botones">
+        <button type="button" id="btCargar">Cargar datos</button>
+        <button type="button" id="btVaciar">Vaciar datos</button>
+      </div>
+    </div>
+
+    <div class="tablaScroll">
+      <table>
+        <thead>
+          <tr class="titulos">
+            <th id="th_notasDebito_nroComprobante" campo-orden="nroComprobante">NroComprobante</th>
+            <th id="th_notasDebito_nroFacturaImputada" campo-orden="nroFacturaImputada">NroDeFacturaImputada</th>
+            <th id="th_notasDebito_tipoComprobante" campo-orden="tipoComprobante">TipoComprobante</th>
+            <th id="th_notasDebito_codCliente" campo-orden="codCliente">CodCliente</th>
+            <th id="th_notasDebito_razonSocial" campo-orden="razonSocial">RazonSocial</th>
+            <th id="th_notasDebito_fechaComprobante" campo-orden="fechaComprobante">fechaComprobante</th>
+            <th id="th_notasDebito_totalComprobante" campo-orden="totalComprobante">TotalComprobante</th>
+          </tr>
+          <tr class="filtros">
+            <th><input type="text" id="f_notasDebito_nroComprobante" aria-label="Filtro por nro. de comprobante"></th>
+            <th><input type="text" id="f_notasDebito_nroFacturaImputada" aria-label="Filtro por factura imputada"></th>
+            <th><select id="f_notasDebito_tipoComprobante" aria-label="Filtro por tipo de comprobante"></select></th>
+            <th><input type="text" id="f_notasDebito_codCliente" aria-label="Filtro por código de cliente"></th>
+            <th><input type="text" id="f_notasDebito_razonSocial" aria-label="Filtro por razón social"></th>
+            <th><input type="text" id="f_notasDebito_fechaComprobante" aria-label="Filtro por fecha"></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbDatos"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7" id="tdCantidad">Cantidad de comprobantes: 0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="pie">Tabla 10: Encabezados de notas de débito de ventas - Alumno: Jesús Odreman</div>
+
+  </div>
+
+  <p style="margin:10px 20px;"><a href="../index.html">Volver al índice de PHP</a></p>
+
+</body>
+</html>
