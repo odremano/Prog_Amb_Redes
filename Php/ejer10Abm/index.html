@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHP - ABM (alta, baja y modificación)</title>
+<style>
+/* Tablero de la semana pasada (lista, ordena y filtra) más lo necesario para el ABM */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #eef2f7;
+  color: #1e2a38;
+}
+
+button {
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: #d5dde8;
+  border: 1px solid #8796aa;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #c3cfde;
+}
+
+/* ---------- Tabla de datos ---------- */
+/* Layout de altura completa: la barra y el pie quedan fijos, y solo
+   .tablaScroll (los datos) tiene scroll propio. Nunca debe aparecer
+   scroll horizontal: por eso la tabla usa table-layout fijo y el
+   texto se ajusta en vez de desbordar. */
+.paginaTabla {
+  display: flex;
+  flex-direction: column;
+  height: 88vh;
+  overflow: hidden;
+}
+
+.barra {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 20px;
+}
+
+.barra h2 {
+  margin: 0;
+}
+
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tablaScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+thead th,
+tbody td,
+tfoot td {
+  padding: 10px;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #2f4b6e;
+  color: white;
+  font-variant: small-caps;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #dbe3ee;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #c8d4e4;
+}
+
+tfoot td {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background-color: #2f4b6e;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  thead th, tbody td, tfoot td {
+    font-size: 12px;
+    padding: 6px 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  thead th, tbody td, tfoot td {
+    font-size: 10px;
+    padding: 4px 2px;
+  }
+}
+
+.pie {
+  background-color: #2f4b6e;
+  color: white;
+  text-align: center;
+  padding: 12px;
+}
+
+/* ---------- Específico de este ejercicio: orden y filtros ---------- */
+.barra .orden {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+}
+
+.barra .orden input {
+  width: 150px;
+  max-width: 40vw;
+  padding: 6px;
+  border: 1px solid #9aa9bb;
+  border-radius: 4px;
+  background-color: #f4f6fa;
+}
+
+/* Las dos filas del encabezado (títulos y filtros) quedan fijas juntas */
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+thead th {
+  position: static;
+}
+
+/* Los títulos son sensibles al click: producen el ordenamiento */
+thead tr.titulos th {
+  cursor: pointer;
+}
+
+thead tr.titulos th:hover {
+  background-color: #3f6190;
+}
+
+thead tr.filtros th {
+  background-color: #5a779c;
+  padding: 4px;
+}
+
+thead tr.filtros input,
+thead tr.filtros select {
+  width: 100%;
+  min-width: 0;
+  padding: 4px;
+  font-size: 13px;
+  border: 1px solid #9aa9bb;
+  border-radius: 3px;
+}
+
+tbody td.mensaje {
+  text-align: center;
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  .barra .orden input {
+    width: 110px;
+  }
+  thead tr.filtros input,
+  thead tr.filtros select {
+    font-size: 9px;
+    padding: 2px;
+  }
+}
+
+/* ---------- Específico del ABM: columnas de botones, ventanas modales y formularios ---------- */
+.barra .botones button {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+button.btCelda {
+  width: 100%;
+  padding: 3px 2px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+button.btCelda:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+tbody td.celdaBoton {
+  padding: 4px;
+}
+
+/* El contenedor de toda la tabla se vuelve pasivo mientras hay una ventana modal abierta */
+div.contenedorActivo {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+div.contenedorPasivo {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+div.ventanaModalApagado {
+  visibility: hidden;
+}
+
+div.ventanaModalPrendido {
+  visibility: visible;
+}
+
+.ventanaModal {
+  position: fixed;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 820px;
+  max-height: 88%;
+  overflow-y: auto;
+  background-color: #eef2f7;
+  border: 1px solid #2f4b6e;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  z-index: 10;
+}
+
+/* La ventana de respuesta del servidor queda por encima de la del formulario */
+#ventanaModalRespuesta {
+  z-index: 20;
+  top: 14%;
+  max-width: 700px;
+}
+
+.encabezadoModal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b9c5d6;
+  padding: 8px 14px;
+  font-weight: bold;
+}
+
+.encabezadoModal button {
+  padding: 2px 10px;
+  color: #b3202a;
+  font-weight: bold;
+}
+
+.cuerpoModal {
+  padding: 14px;
+}
+
+.pieModal {
+  padding: 10px 14px;
+  text-align: center;
+  border-top: 1px solid #b9c5d6;
+}
+
+.formAbm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+
+.formAbm.formOculto {
+  display: none;
+}
+
+.formAbm label {
+  display: block;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.formAbm input,
+.formAbm select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #9aa9bb;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.formAbm input:invalid,
+.formAbm select:invalid {
+  border-color: #b3202a;
+}
+
+.formAbm .anchoCompleto {
+  grid-column: 1 / -1;
+}
+
+#contenidoModalRespuesta iframe {
+  width: 100%;
+  height: 65vh;
+  border: 1px solid #9aa9bb;
+}
+
+#contenidoModalRespuesta {
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .formAbm {
+    grid-template-columns: 1fr;
+  }
+  .barra .botones button {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  button.btCelda {
+    font-size: 8px;
+    padding: 2px 0;
+  }
+  tbody td.celdaBoton {
+    padding: 2px;
+  }
+}
+
+</style>
+<script>
+
+  /* Objetos del DOM y datos globales (se asignan cuando termina de cargarse el documento) */
+  let objTbDatos;
+  let objContenedorTabla;
+  let objVentanaFormulario;
+  let objVentanaRespuesta;
+  let objFormAlta;
+  let objFormModi;
+  let objBtEnvioAlta;
+  let objBtEnvioModi;
+
+  /* Objeto global con los tipos de comprobante: lo usan el filtro y los formularios de alta y modi */
+  let objGlobalTipos;
+
+  /* ---------- Utilidades de la tabla ---------- */
+
+  /* Crea una celda de la tabla: recibe el nombre del campo y el valor a mostrar */
+  function creaCelda(argCampo, argValor) {
+    const objTd = document.createElement("td");
+    objTd.setAttribute("campo-dato", argCampo);
+    objTd.textContent = argValor;
+    return objTd;
+  }
+
+  /* Crea una celda con un botón (PDF, Modi o Baja) y le asigna su manejador de evento */
+  function creaCeldaBoton(argCampo, argTexto, argFuncion, argHabilitado) {
+    const objTd = document.createElement("td");
+    objTd.setAttribute("campo-dato", argCampo);
+    objTd.className = "celdaBoton";
+    const objBoton = document.createElement("button");
+    objBoton.type = "button";
+    objBoton.className = "btCelda";
+    objBoton.textContent = argTexto;
+    objBoton.disabled = !argHabilitado;
+    objBoton.addEventListener("click", argFuncion);
+    objTd.appendChild(objBoton);
+    return objTd;
+  }
+
+  /* Se van sacando los hijos del tbody uno por uno con removeChild() */
+  function vaciarTabla() {
+    while (objTbDatos.childNodes.length > 0) {
+      objTbDatos.removeChild(objTbDatos.childNodes[0]);
+    }
+  }
+
+  /* Inserta un mensaje en el tbody (por ejemplo "Esperando respuesta del servidor") */
+  function mensajeEnTabla(argTexto) {
+    const objTr = document.createElement("tr");
+    const objTd = document.createElement("td");
+    objTd.setAttribute("colspan", "10");
+    objTd.className = "mensaje";
+    objTd.textContent = argTexto;
+    objTr.appendChild(objTd);
+    objTbDatos.appendChild(objTr);
+  }
+
+  function actualizaPie(argCantidad) {
+    document.getElementById("tdCantidad").textContent = "Cantidad de comprobantes: " + argCantidad;
+  }
+
+  function limpiaFiltros() {
+    document.getElementById("f_notasDebito_nroComprobante").value = "";
+    document.getElementById("f_notasDebito_nroFacturaImputada").value = "";
+    document.getElementById("f_notasDebito_tipoComprobante").value = "";
+    document.getElementById("f_notasDebito_codCliente").value = "";
+    document.getElementById("f_notasDebito_razonSocial").value = "";
+    document.getElementById("f_notasDebito_fechaComprobante").value = "";
+  }
+
+  /* ---------- Ventanas modales ---------- */
+
+  /* Muestra la ventana del formulario (alta o modi). El contenedor de la tabla se vuelve pasivo. */
+  function abreVentanaFormulario(argTipo) {
+    objContenedorTabla.className = "paginaTabla contenedorPasivo";
+    if (argTipo == "alta") {
+      document.getElementById("tituloVentanaFormulario").textContent = "Ventana modal: formulario de alta";
+      objFormAlta.className = "formAbm";
+      objFormModi.className = "formAbm formOculto";
+    }
+    else {
+      document.getElementById("tituloVentanaFormulario").textContent = "Ventana modal: formulario de modificaciones";
+      objFormAlta.className = "formAbm formOculto";
+      objFormModi.className = "formAbm";
+    }
+    /* Solo se muestra el botón de envío que corresponde al formulario activo */
+    objBtEnvioAlta.hidden = (argTipo != "alta");
+    objBtEnvioModi.hidden = (argTipo != "modi");
+    objVentanaFormulario.className = "ventanaModal ventanaModalPrendido";
+  }
+
+  function cierraVentanaFormulario() {
+    objVentanaFormulario.className = "ventanaModal ventanaModalApagado";
+    objContenedorTabla.className = "paginaTabla contenedorActivo";
+  }
+
+  /* La ventana de respuesta del servidor recibe un encabezado y un contenido */
+  function abreVentanaRespuesta(argEncabezado) {
+    document.getElementById("encabezadoModalRespuesta").textContent = argEncabezado;
+    objContenedorTabla.className = "paginaTabla contenedorPasivo";
+    objVentanaRespuesta.className = "ventanaModal ventanaModalPrendido";
+  }
+
+  function cierraVentanaRespuesta() {
+    objVentanaRespuesta.className = "ventanaModal ventanaModalApagado";
+    /* Si la ventana del formulario sigue abierta, el contenedor sigue pasivo */
+    if (objVentanaFormulario.className.indexOf("ventanaModalPrendido") == -1) {
+      objContenedorTabla.className = "paginaTabla contenedorActivo";
+    }
+  }
+
+  function vaciaContenidoRespuesta() {
+    const objContenido = document.getElementById("contenidoModalRespuesta");
+    while (objContenido.childNodes.length > 0) {
+      objContenido.removeChild(objContenido.childNodes[0]);
+    }
+    return objContenido;
+  }
+
+  /* Muestra en la ventana de respuesta el texto (con etiquetas html) que devolvió el servidor */
+  function muestraRespuestaServidor(argEncabezado, argTexto) {
+    const objContenido = vaciaContenidoRespuesta();
+    objContenido.innerHTML = argTexto;
+    abreVentanaRespuesta(argEncabezado);
+  }
+
+  /* ---------- Desplegables de tipos de comprobante ---------- */
+
+  /* Barre el arreglo de tipos para crear dinámicamente las opciones de un desplegable */
+  function llenaDesplegable(argSelect, argConOpcionVacia) {
+    if (argConOpcionVacia) {
+      const objOpcionVacia = document.createElement("option");
+      objOpcionVacia.value = "";
+      argSelect.appendChild(objOpcionVacia);
+    }
+    objGlobalTipos.tiposComprobante.forEach(function(argTipo) {
+      const objOpcion = document.createElement("option");
+      objOpcion.value = argTipo.id;
+      objOpcion.textContent = argTipo.id + " - " + argTipo.descripcion;
+      argSelect.appendChild(objOpcion);
+    });
+  }
+
+  /* Al cargar la página llega el JSON de los tipos de comprobante */
+  function cargaTipos() {
+    fetch("./salidaJsonTiposComprobante.php")
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(textoDeRespuesta => {
+        alert("Llegó el JSON de los tipos de comprobante:\n" + textoDeRespuesta);
+        objGlobalTipos = JSON.parse(textoDeRespuesta);
+        llenaDesplegable(document.getElementById("f_notasDebito_tipoComprobante"), true);
+        llenaDesplegable(document.getElementById("altaTipoComprobante"), false);
+        llenaDesplegable(document.getElementById("modiTipoComprobante"), false);
+      })
+      .catch(error => {
+        alert("Error producido: " + error);
+      });
+  }
+
+  /* ---------- Lectura de la tabla: cargaTabla() ---------- */
+
+  function cargaTabla() {
+    vaciarTabla();
+    mensajeEnTabla("Esperando respuesta del servidor");
+
+    /* Objeto de datos que viaja al servidor: orden y filtros */
+    const objDatosOrdenFiltros = new URLSearchParams();
+    objDatosOrdenFiltros.append("orden", document.getElementById("orden").value);
+    objDatosOrdenFiltros.append("f_notasDebito_nroComprobante", document.getElementById("f_notasDebito_nroComprobante").value);
+    objDatosOrdenFiltros.append("f_notasDebito_nroFacturaImputada", document.getElementById("f_notasDebito_nroFacturaImputada").value);
+    objDatosOrdenFiltros.append("f_notasDebito_tipoComprobante", document.getElementById("f_notasDebito_tipoComprobante").value);
+    objDatosOrdenFiltros.append("f_notasDebito_codCliente", document.getElementById("f_notasDebito_codCliente").value);
+    objDatosOrdenFiltros.append("f_notasDebito_razonSocial", document.getElementById("f_notasDebito_razonSocial").value);
+    objDatosOrdenFiltros.append("f_notasDebito_fechaComprobante", document.getElementById("f_notasDebito_fechaComprobante").value);
+
+    alert("Se está por disparar un requerimiento asincrónico. Los datos que viajan en el body (formato de URL):\n" + objDatosOrdenFiltros.toString());
+
+    fetch("./salidaJsonNotasDebito.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: objDatosOrdenFiltros
+    })
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(textoDeRespuesta => {
+        alert("Llegó el JSON de las notas de débito:\n" + textoDeRespuesta);
+        const objJson = JSON.parse(textoDeRespuesta);
+
+        vaciarTabla();
+        objJson.notasDebito.forEach(function(argValor) {
+          const objTr = document.createElement("tr");
+          objTr.appendChild(creaCelda("nroComprobante", argValor.nroComprobante));
+          objTr.appendChild(creaCelda("nroFacturaImputada", argValor.nroFacturaImputada));
+          objTr.appendChild(creaCelda("tipoComprobante", argValor.tipoComprobante));
+          objTr.appendChild(creaCelda("codCliente", argValor.codCliente));
+          objTr.appendChild(creaCelda("razonSocial", argValor.razonSocial));
+          objTr.appendChild(creaCelda("fechaComprobante", argValor.fechaComprobante));
+          objTr.appendChild(creaCelda("totalComprobante", argValor.totalComprobante));
+
+          /* Los tres botones se crean dinámicamente en cada ciclo del barrido del JSON */
+          objTr.appendChild(creaCeldaBoton("notasDebito_btPdf", "PDF", function() {
+            verPdf(argValor);
+          }, argValor.tieneAdjunto == 1));
+          objTr.appendChild(creaCeldaBoton("notasDebito_btModi", "Modi", function() {
+            abreFormularioModi(argValor);
+          }, true));
+          objTr.appendChild(creaCeldaBoton("notasDebito_btBaja", "Baja", function() {
+            baja(argValor);
+          }, true));
+
+          objTbDatos.appendChild(objTr);
+        });
+        actualizaPie(objJson.cuenta);
+
+        if (objJson.cuenta == 0) {
+          mensajeEnTabla("No se encontraron comprobantes. Estado: " + objJson.estado);
+        }
+      })
+      .catch(error => {
+        vaciarTabla();
+        mensajeEnTabla("No se pudo obtener la respuesta del servidor");
+        alert("Error producido: " + error);
+      });
+  }
+
+  /* ---------- Lectura del binario: botón PDF ---------- */
+
+  function verPdf(argNota) {
+    const objDatos = new URLSearchParams();
+    objDatos.append("idNotaDebito", argNota.idNotaDebito);
+
+    alert("Se pide el documento de la nota " + argNota.nroComprobante + ". Datos que viajan en el body:\n" + objDatos.toString());
+
+    fetch("./traeBinario.php", {
+      method: "POST",
+      headers: {},
+      body: objDatos
+    })
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(datos => {
+        /* El binario viene en base64: en el alert se muestran solo los primeros caracteres */
+        alert("Llegó la respuesta del servidor (primeros 300 caracteres):\n" + datos.substring(0, 300) + "...");
+        const objJson = JSON.parse(datos);
+
+        const objContenido = vaciaContenidoRespuesta();
+        if (objJson.adjunto == "") {
+          objContenido.textContent = "El servidor no devolvió ningún documento. Estado: " + objJson.estado;
+        }
+        else {
+          /* El pdf codificado en base64 se muestra dentro de un iframe */
+          const objIframe = document.createElement("iframe");
+          objIframe.setAttribute("src", "data:application/pdf;base64," + objJson.adjunto);
+          objContenido.appendChild(objIframe);
+        }
+        abreVentanaRespuesta("Documento de la nota de débito " + argNota.nroComprobante);
+      })
+      .catch(error => {
+        alert("Error producido: " + error);
+      });
+  }
+
+  /* ---------- Alta ---------- */
+
+  function abreFormularioAlta() {
+    objFormAlta.reset();
+    objBtEnvioAlta.disabled = true;
+    abreVentanaFormulario("alta");
+  }
+
+  /* El botón de envío del formulario de alta se habilita solo si todo el formulario es válido */
+  function todoListoParaAlta() {
+    if (objFormAlta.checkValidity()) {
+      objBtEnvioAlta.disabled = false;
+    }
+    else {
+      objBtEnvioAlta.disabled = true;
+    }
+  }
+
+  function alta() {
+    const objDatosFormulario = new FormData(objFormAlta);
+
+    if (!confirm("¿Está seguro de insertar el registro " + objDatosFormulario.get("nroComprobante") + "?")) {
+      return;
+    }
+
+    fetch("./alta.php", {
+      method: "post",
+      headers: {},
+      body: objDatosFormulario
+    })
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(datos => {
+        alert(datos);
+        muestraRespuestaServidor("Respuesta del servidor a la alta", datos);
+        cargaTabla();
+      })
+      .catch(error => {
+        alert("Error producido: " + error);
+      });
+  }
+
+  /* ---------- Modificación ---------- */
+
+  /* Llena el formulario de modi con los datos del registro de la fila en la que se hizo click */
+  function completaFicha(argNota) {
+    objFormModi.reset();
+    document.getElementById("modiIdNotaDebito").value = argNota.idNotaDebito;
+    document.getElementById("modiNroComprobante").value = argNota.nroComprobante;
+    document.getElementById("modiNroFacturaImputada").value = argNota.nroFacturaImputada;
+    document.getElementById("modiCodCliente").value = argNota.codCliente;
+    document.getElementById("modiRazonSocial").value = argNota.razonSocial;
+    document.getElementById("modiFechaComprobante").value = argNota.fechaComprobante;
+    document.getElementById("modiTotalComprobante").value = argNota.totalComprobante;
+
+    /* Se marca como seleccionada la opción cuyo value coincide con el tipo del registro actual */
+    const objSelect = document.getElementById("modiTipoComprobante");
+    for (let i = 0; i < objSelect.options.length; i++) {
+      if (objSelect.options[i].value == argNota.tipoComprobante) {
+        objSelect.options[i].setAttribute("selected", "selected");
+        objSelect.selectedIndex = i;
+      }
+    }
+  }
+
+  function abreFormularioModi(argNota) {
+    completaFicha(argNota);
+    objBtEnvioModi.disabled = true;
+    abreVentanaFormulario("modi");
+  }
+
+  /* El botón de envío de la modi se habilita cuando se detecta un cambio y el formulario es válido */
+  function todoListoParaModi() {
+    if (objFormModi.checkValidity()) {
+      objBtEnvioModi.disabled = false;
+    }
+    else {
+      objBtEnvioModi.disabled = true;
+    }
+  }
+
+  function modi() {
+    const objDatosFormulario = new FormData(objFormModi);
+
+    if (!confirm("¿Está seguro que desea modificar el registro " + objDatosFormulario.get("nroComprobante") + "?")) {
+      return;
+    }
+
+    fetch("./modi.php", {
+      method: "post",
+      headers: {},
+      body: objDatosFormulario
+    })
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(datos => {
+        alert(datos);
+        muestraRespuestaServidor("Respuesta del servidor a la modificación", datos);
+        cargaTabla();
+      })
+      .catch(error => {
+        alert("Error producido: " + error);
+      });
+  }
+
+  /* ---------- Baja ---------- */
+
+  function baja(argNota) {
+    if (!confirm("¿Está seguro que desea eliminar el registro " + argNota.nroComprobante + "?")) {
+      return;
+    }
+
+    const objDatos = new URLSearchParams();
+    objDatos.append("idNotaDebito", argNota.idNotaDebito);
+
+    fetch("./baja.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: objDatos
+    })
+      .then(respuesta => {
+        return respuesta.text();
+      })
+      .then(datos => {
+        alert(datos);
+        muestraRespuestaServidor("Respuesta del servidor a la baja", datos);
+        cargaTabla();
+      })
+      .catch(error => {
+        alert("Error producido: " + error);
+      });
+  }
+
+  /* ---------- Arranque: cuando termina de cargarse el documento ---------- */
+
+  window.addEventListener("load", function() {
+
+    objTbDatos = document.getElementById("tbDatos");
+    objContenedorTabla = document.getElementById("contenedorTabla");
+    objVentanaFormulario = document.getElementById("ventanaModalFormulario");
+    objVentanaRespuesta = document.getElementById("ventanaModalRespuesta");
+    objFormAlta = document.getElementById("formAlta");
+    objFormModi = document.getElementById("formModi");
+    objBtEnvioAlta = document.getElementById("btEnvioFormAlta");
+    objBtEnvioModi = document.getElementById("btEnvioFormModi");
+
+    /* Valores iniciales y estado inicial de las ventanas y botones */
+    document.getElementById("orden").value = "nroComprobante";
+    objContenedorTabla.className = "paginaTabla contenedorActivo";
+    objVentanaFormulario.className = "ventanaModal ventanaModalApagado";
+    objVentanaRespuesta.className = "ventanaModal ventanaModalApagado";
+    objBtEnvioAlta.disabled = true;
+    objBtEnvioModi.disabled = true;
+
+    /* Lo primero que llega, al cargar la página, es el JSON de los tipos de comprobante */
+    cargaTipos();
+
+    /* Botones del tablero */
+    document.getElementById("btCargar").addEventListener("click", cargaTabla);
+    document.getElementById("btVaciar").addEventListener("click", function() {
+      vaciarTabla();
+      actualizaPie(0);
+    });
+    document.getElementById("btLimpiarFiltros").addEventListener("click", limpiaFiltros);
+    document.getElementById("btAlta").addEventListener("click", abreFormularioAlta);
+
+    /* Un click en el título de una columna carga el input "orden" y llama a cargaTabla() */
+    document.querySelectorAll("thead tr.titulos th[campo-orden]").forEach(function(objTh) {
+      objTh.addEventListener("click", function() {
+        document.getElementById("orden").value = objTh.getAttribute("campo-orden");
+        cargaTabla();
+      });
+    });
+
+    /* Botones de envío de los formularios y de cierre de las ventanas modales */
+    objBtEnvioAlta.addEventListener("click", alta);
+    objBtEnvioModi.addEventListener("click", modi);
+    document.getElementById("btCierraFormulario").addEventListener("click", cierraVentanaFormulario);
+    document.getElementById("btCierraFormulario2").addEventListener("click", cierraVentanaFormulario);
+    document.getElementById("btCierraRespuesta").addEventListener("click", cierraVentanaRespuesta);
+    document.getElementById("btCierraRespuesta2").addEventListener("click", cierraVentanaRespuesta);
+
+    /* Validación en los eventos keyup y change de las entradas de los formularios */
+    objFormAlta.addEventListener("keyup", todoListoParaAlta);
+    objFormAlta.addEventListener("change", todoListoParaAlta);
+    objFormModi.addEventListener("keyup", todoListoParaModi);
+    objFormModi.addEventListener("change", todoListoParaModi);
+
+  });
+
+</script>
+</head>
+<body>
+
+  <div id="contenedorTabla" class="paginaTabla contenedorActivo">
+
+    <div class="barra">
+      <h2>Notas de débito de ventas</h2>
+      <div class="orden">
+        <label for="orden">Orden:</label>
+        <input type="text" id="orden" value="nroComprobante" readonly>
+      </div>
+      <div class="botones">
+        <button type="button" id="btCargar">Cargar datos</button>
+        <button type="button" id="btVaciar">Vaciar datos</button>
+        <button type="button" id="btLimpiarFiltros">Limpiar filtros</button>
+        <button type="button" id="btAlta">Alta registro</button>
+      </div>
+    </div>
+
+    <div class="tablaScroll">
+      <table>
+        <thead>
+          <tr class="titulos">
+            <th campo-orden="nroComprobante">NroComprobante</th>
+            <th campo-orden="nroFacturaImputada">NroDeFacturaImputada</th>
+            <th campo-orden="tipoComprobante">TipoComprobante</th>
+            <th campo-orden="codCliente">CodCliente</th>
+            <th campo-orden="razonSocial">RazonSocial</th>
+            <th campo-orden="fechaComprobante">fechaComprobante</th>
+            <th campo-orden="totalComprobante">TotalComprobante</th>
+            <th>PDF</th>
+            <th>Modi</th>
+            <th>Baja</th>
+          </tr>
+          <tr class="filtros">
+            <th><input type="text" id="f_notasDebito_nroComprobante" aria-label="Filtro por nro. de comprobante"></th>
+            <th><input type="text" id="f_notasDebito_nroFacturaImputada" aria-label="Filtro por factura imputada"></th>
+            <th><select id="f_notasDebito_tipoComprobante" aria-label="Filtro por tipo de comprobante"></select></th>
+            <th><input type="text" id="f_notasDebito_codCliente" aria-label="Filtro por código de cliente"></th>
+            <th><input type="text" id="f_notasDebito_razonSocial" aria-label="Filtro por razón social"></th>
+            <th><input type="text" id="f_notasDebito_fechaComprobante" aria-label="Filtro por fecha"></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbDatos"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="10" id="tdCantidad">Cantidad de comprobantes: 0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="pie">Tabla 10: Encabezados de notas de débito de ventas - Alumno: Jesús Odreman</div>
+
+  </div>
+
+  <p style="margin:10px 20px;"><a href="../index.html">Volver al índice de PHP</a></p>
+
+  <!-- Ventana modal con los formularios de alta y de modificación (se muestra uno por vez) -->
+  <div id="ventanaModalFormulario" class="ventanaModal ventanaModalApagado">
+    <div class="encabezadoModal">
+      <span id="tituloVentanaFormulario">Ventana modal: formulario</span>
+      <button type="button" id="btCierraFormulario" aria-label="Cerrar">X</button>
+    </div>
+
+    <div class="cuerpoModal">
+
+      <form id="formAlta" class="formAbm formOculto" method="post" enctype="multipart/form-data">
+        <div>
+          <label for="altaNroComprobante">NroComprobante:</label>
+          <input type="text" id="altaNroComprobante" name="nroComprobante" maxlength="20" required>
+        </div>
+        <div>
+          <label for="altaNroFacturaImputada">NroDeFacturaImputada:</label>
+          <input type="text" id="altaNroFacturaImputada" name="nroFacturaImputada" maxlength="20" required>
+        </div>
+        <div>
+          <label for="altaTipoComprobante">TipoComprobante:</label>
+          <select id="altaTipoComprobante" name="tipoComprobante" required></select>
+        </div>
+        <div>
+          <label for="altaCodCliente">CodCliente:</label>
+          <input type="text" id="altaCodCliente" name="codCliente" maxlength="10" required>
+        </div>
+        <div>
+          <label for="altaRazonSocial">RazonSocial:</label>
+          <input type="text" id="altaRazonSocial" name="razonSocial" maxlength="80" required>
+        </div>
+        <div>
+          <label for="altaFechaComprobante">fechaComprobante:</label>
+          <input type="date" id="altaFechaComprobante" name="fechaComprobante" required>
+        </div>
+        <div>
+          <label for="altaTotalComprobante">TotalComprobante:</label>
+          <input type="number" id="altaTotalComprobante" name="totalComprobante" step="any" min="0" required>
+        </div>
+        <div>
+          <label for="altaAdjunto">Documento PDF:</label>
+          <input type="file" id="altaAdjunto" name="adjunto" accept=".pdf,application/pdf">
+        </div>
+      </form>
+
+      <form id="formModi" class="formAbm formOculto" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="modiIdNotaDebito" name="idNotaDebito">
+        <div>
+          <label for="modiNroComprobante">NroComprobante:</label>
+          <input type="text" id="modiNroComprobante" name="nroComprobante" maxlength="20" required>
+        </div>
+        <div>
+          <label for="modiNroFacturaImputada">NroDeFacturaImputada:</label>
+          <input type="text" id="modiNroFacturaImputada" name="nroFacturaImputada" maxlength="20" required>
+        </div>
+        <div>
+          <label for="modiTipoComprobante">TipoComprobante:</label>
+          <select id="modiTipoComprobante" name="tipoComprobante" required></select>
+        </div>
+        <div>
+          <label for="modiCodCliente">CodCliente:</label>
+          <input type="text" id="modiCodCliente" name="codCliente" maxlength="10" required>
+        </div>
+        <div>
+          <label for="modiRazonSocial">RazonSocial:</label>
+          <input type="text" id="modiRazonSocial" name="razonSocial" maxlength="80" required>
+        </div>
+        <div>
+          <label for="modiFechaComprobante">fechaComprobante:</label>
+          <input type="date" id="modiFechaComprobante" name="fechaComprobante" required>
+        </div>
+        <div>
+          <label for="modiTotalComprobante">TotalComprobante:</label>
+          <input type="number" id="modiTotalComprobante" name="totalComprobante" step="any" min="0" required>
+        </div>
+        <div>
+          <label for="modiAdjunto">Documento PDF (opcional, reemplaza al actual):</label>
+          <input type="file" id="modiAdjunto" name="adjunto" accept=".pdf,application/pdf">
+        </div>
+      </form>
+
+    </div>
+
+    <div class="pieModal">
+      <button type="button" id="btEnvioFormAlta" disabled>Enviar alta</button>
+      <button type="button" id="btEnvioFormModi" disabled>Enviar modificación</button>
+      <button type="button" id="btCierraFormulario2">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- Ventana modal con la respuesta del servidor (o con el documento pdf) -->
+  <div id="ventanaModalRespuesta" class="ventanaModal ventanaModalApagado">
+    <div class="encabezadoModal">
+      <span id="encabezadoModalRespuesta">Respuesta del servidor</span>
+      <button type="button" id="btCierraRespuesta" aria-label="Cerrar">X</button>
+    </div>
+    <div class="cuerpoModal">
+      <div id="contenidoModalRespuesta"></div>
+    </div>
+    <div class="pieModal">
+      <button type="button" id="btCierraRespuesta2">Cerrar</button>
+    </div>
+  </div>
+
+</body>
+</html>
