@@ -4,6 +4,9 @@ FROM php:8-apache
 # Extensión PDO para MySQL (acceso a la base de datos desde PHP)
 RUN docker-php-ext-install pdo_mysql
 
+# Tamaño máximo de los files que se suben desde los formularios (documentos pdf del ABM)
+RUN printf 'upload_max_filesize=10M\npost_max_size=12M\n' > /usr/local/etc/php/conf.d/subidas.ini
+
 COPY . /var/www/html/
 
 # Los archivos .log y .sql no se entregan nunca por HTTP (pueden contener datos del servidor)
@@ -12,4 +15,6 @@ RUN printf '<FilesMatch "\\.(log|sql)$">\n  Require all denied\n</FilesMatch>\n'
 
 # errores.log de cada ejercicio con base de datos: PHP (www-data) necesita poder escribirlo
 RUN touch /var/www/html/Php/ejer09DbListaOrdenaFiltra/errores.log \
-    && chown www-data:www-data /var/www/html/Php/ejer09DbListaOrdenaFiltra/errores.log
+    && chown www-data:www-data /var/www/html/Php/ejer09DbListaOrdenaFiltra/errores.log \
+    && touch /var/www/html/Php/ejer10Abm/errores.log \
+    && chown www-data:www-data /var/www/html/Php/ejer10Abm/errores.log
